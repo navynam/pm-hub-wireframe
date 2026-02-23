@@ -319,6 +319,26 @@ tr:hover { background: var(--gray-light); }
 .activity-list li { padding: 10px 0; border-bottom: 1px solid #f0f0f0; display: flex; gap: 10px; align-items: flex-start; }
 .activity-list .a-time { font-size: 11px; color: var(--gray); white-space: nowrap; min-width: 50px; }
 
+/* PHASE PIPELINE */
+.phase-pipeline { display: flex; align-items: center; gap: 0; }
+.phase-step {
+  display: flex; align-items: center; gap: 0;
+}
+.phase-dot {
+  width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.phase-dot.done { background: var(--green); }
+.phase-dot.active { background: var(--navy); animation: pulse 1.5s infinite; }
+.phase-dot.pending { background: #ccc; }
+.phase-line { width: 16px; height: 2px; flex-shrink: 0; }
+.phase-line.done { background: var(--green); }
+.phase-line.active { background: var(--navy); }
+.phase-line.pending { background: #ddd; }
+.phase-labels { display: flex; gap: 0; margin-top: 2px; }
+.phase-label { width: 22px; text-align: center; font-size: 8px; color: var(--gray); flex-shrink: 0; }
+.phase-label-gap { width: 16px; flex-shrink: 0; }
+
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
 
 @media (max-width: 1100px) {
@@ -451,33 +471,97 @@ tr:hover { background: var(--gray-light); }
 
         <div class="grid-2">
           <div class="card">
-            <div class="section-title">프로젝트 현황</div>
-            <div style="display:flex;flex-direction:column;gap:14px">
+            <div class="section-title">프로젝트 단계 현황</div>
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <!-- 현대모비스 -->
               <div>
-                <div class="flex-between mb-16" style="margin-bottom:4px"><span class="fw-700">현대모비스 MES 구축</span><span class="badge badge-blue">진행중</span></div>
-                <div class="progress-bar"><div class="fill fill-navy" style="width:68%"></div></div>
-                <div class="text-sm text-gray" style="margin-top:2px">68% · 2025.03 ~ 2025.12</div>
+                <div class="flex-between" style="margin-bottom:6px"><span class="fw-700">현대모비스 MES 구축</span><span class="text-sm text-gray">68%</span></div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div class="phase-pipeline">
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot active">3</div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div>
+                  </div>
+                  <span class="badge badge-blue" style="margin-left:8px">개발</span>
+                </div>
+                <div style="display:flex;gap:0;margin-top:2px">
+                  <span style="width:22px;text-align:center;font-size:8px;color:var(--gray)">분석</span><span style="width:16px"></span>
+                  <span style="width:22px;text-align:center;font-size:8px;color:var(--gray)">설계</span><span style="width:16px"></span>
+                  <span style="width:22px;text-align:center;font-size:8px;color:var(--navy);font-weight:600">개발</span><span style="width:16px"></span>
+                  <span style="width:22px;text-align:center;font-size:8px;color:var(--gray)">테스트</span><span style="width:16px"></span>
+                  <span style="width:22px;text-align:center;font-size:8px;color:var(--gray)">배포</span><span style="width:16px"></span>
+                  <span style="width:22px;text-align:center;font-size:8px;color:var(--gray)">안정</span>
+                </div>
               </div>
+              <!-- KB손보 -->
               <div>
-                <div class="flex-between" style="margin-bottom:4px"><span class="fw-700">KB손보 SFA 고도화</span><span class="badge badge-blue">진행중</span></div>
-                <div class="progress-bar"><div class="fill fill-navy" style="width:42%"></div></div>
-                <div class="text-sm text-gray" style="margin-top:2px">42% · 2025.06 ~ 2026.03</div>
+                <div class="flex-between" style="margin-bottom:6px"><span class="fw-700">KB손보 SFA 고도화</span><span class="text-sm text-gray">70%</span></div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div class="phase-pipeline">
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot active">4</div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div>
+                  </div>
+                  <span class="badge badge-blue" style="margin-left:8px">테스트</span>
+                </div>
               </div>
+              <!-- 농협 -->
               <div>
-                <div class="flex-between" style="margin-bottom:4px"><span class="fw-700">농협 차세대 시스템</span><span class="badge badge-green">완료</span></div>
-                <div class="progress-bar"><div class="fill fill-green" style="width:100%"></div></div>
-                <div class="text-sm text-gray" style="margin-top:2px">100% · 2024.09 ~ 2025.08</div>
+                <div class="flex-between" style="margin-bottom:6px"><span class="fw-700">농협 차세대 시스템</span><span class="text-sm text-gray">100%</span></div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div class="phase-pipeline">
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div>
+                  </div>
+                  <span class="badge badge-green" style="margin-left:8px">완료</span>
+                </div>
               </div>
+              <!-- 삼성SDS -->
               <div>
-                <div class="flex-between" style="margin-bottom:4px"><span class="fw-700">삼성SDS 물류TMS</span><span class="badge badge-orange">지연</span></div>
-                <div class="progress-bar"><div class="fill fill-red" style="width:35%"></div></div>
-                <div class="text-sm text-gray" style="margin-top:2px">35% · 2025.01 ~ 2025.09</div>
+                <div class="flex-between" style="margin-bottom:6px"><span class="fw-700">삼성SDS 물류TMS</span><span class="text-sm text-gray">35%</span></div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div class="phase-pipeline">
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot active" style="background:var(--red)">2</div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div>
+                  </div>
+                  <span class="badge badge-red" style="margin-left:8px">설계 지연</span>
+                </div>
               </div>
+              <!-- LG CNS -->
               <div>
-                <div class="flex-between" style="margin-bottom:4px"><span class="fw-700">LG CNS 데이터플랫폼</span><span class="badge badge-gray">준비</span></div>
-                <div class="progress-bar"><div class="fill fill-navy" style="width:10%"></div></div>
-                <div class="text-sm text-gray" style="margin-top:2px">10% · 2026.01 ~ 2026.12</div>
+                <div class="flex-between" style="margin-bottom:6px"><span class="fw-700">LG CNS 데이터플랫폼</span><span class="text-sm text-gray">10%</span></div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div class="phase-pipeline">
+                    <div class="phase-dot active">1</div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div>
+                  </div>
+                  <span class="badge badge-gray" style="margin-left:8px">분석</span>
+                </div>
               </div>
+            </div>
+            <div style="margin-top:14px;display:flex;gap:14px;font-size:11px;color:var(--gray)">
+              <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);vertical-align:middle"></span> 완료</span>
+              <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--navy);vertical-align:middle"></span> 진행중</span>
+              <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#ccc;vertical-align:middle"></span> 대기</span>
+              <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--red);vertical-align:middle"></span> 지연</span>
             </div>
           </div>
           <div class="card">
@@ -724,13 +808,13 @@ tr:hover { background: var(--gray-light); }
           </div>
           <div class="card" style="padding:0;overflow:hidden">
             <table>
-              <thead><tr><th>프로젝트명</th><th>고객사</th><th>기간</th><th>상태</th><th>진행률</th><th>투입인원</th></tr></thead>
+              <thead><tr><th>프로젝트명</th><th>고객사</th><th>기간</th><th>현재단계</th><th>상태</th><th>진행률</th><th>투입인원</th></tr></thead>
               <tbody>
-                <tr><td class="fw-700">현대모비스 MES 구축</td><td>현대모비스</td><td>2025.03~2025.12</td><td><span class="badge badge-blue">진행</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-navy" style="width:68%"></div></div></td><td>12명</td></tr>
-                <tr><td class="fw-700">KB손보 SFA 고도화</td><td>KB손해보험</td><td>2025.06~2026.03</td><td><span class="badge badge-blue">진행</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-navy" style="width:42%"></div></div></td><td>8명</td></tr>
-                <tr><td class="fw-700">농협 차세대 시스템</td><td>NH농협</td><td>2024.09~2025.08</td><td><span class="badge badge-green">완료</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-green" style="width:100%"></div></div></td><td>15명</td></tr>
-                <tr><td class="fw-700">삼성SDS 물류TMS</td><td>삼성SDS</td><td>2025.01~2025.09</td><td><span class="badge badge-red">지연</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-red" style="width:35%"></div></div></td><td>10명</td></tr>
-                <tr><td class="fw-700">LG CNS 데이터플랫폼</td><td>LG CNS</td><td>2026.01~2026.12</td><td><span class="badge badge-gray">준비</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-navy" style="width:10%"></div></div></td><td>5명</td></tr>
+                <tr><td class="fw-700">현대모비스 MES 구축</td><td>현대모비스</td><td>2025.03~2025.12</td><td><span class="badge badge-blue">🔵 개발</span></td><td><span class="badge badge-blue">진행</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-navy" style="width:68%"></div></div></td><td>12명</td></tr>
+                <tr><td class="fw-700">KB손보 SFA 고도화</td><td>KB손해보험</td><td>2025.06~2026.03</td><td><span class="badge badge-blue">🔵 테스트</span></td><td><span class="badge badge-blue">진행</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-navy" style="width:70%"></div></div></td><td>8명</td></tr>
+                <tr><td class="fw-700">농협 차세대 시스템</td><td>NH농협</td><td>2024.09~2025.08</td><td><span class="badge badge-green">✅ 안정화</span></td><td><span class="badge badge-green">완료</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-green" style="width:100%"></div></div></td><td>15명</td></tr>
+                <tr><td class="fw-700">삼성SDS 물류TMS</td><td>삼성SDS</td><td>2025.01~2025.09</td><td><span class="badge badge-red">⚠️ 설계</span></td><td><span class="badge badge-red">지연</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-red" style="width:35%"></div></div></td><td>10명</td></tr>
+                <tr><td class="fw-700">LG CNS 데이터플랫폼</td><td>LG CNS</td><td>2026.01~2026.12</td><td><span class="badge badge-gray">⬜ 분석</span></td><td><span class="badge badge-gray">준비</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-navy" style="width:10%"></div></div></td><td>5명</td></tr>
               </tbody>
             </table>
           </div>
