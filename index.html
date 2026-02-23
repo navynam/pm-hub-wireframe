@@ -138,7 +138,7 @@ input, select, textarea { font-family: inherit; font-size: 14px; }
 
 /* ===== CARDS & COMPONENTS ===== */
 .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
-.summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
 .summary-card {
   background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow);
   padding: 20px; display: flex; align-items: center; gap: 16px;
@@ -319,6 +319,28 @@ tr:hover { background: var(--gray-light); }
 .activity-list li { padding: 10px 0; border-bottom: 1px solid #f0f0f0; display: flex; gap: 10px; align-items: flex-start; }
 .activity-list .a-time { font-size: 11px; color: var(--gray); white-space: nowrap; min-width: 50px; }
 
+/* PHASE PIPELINE */
+.phase-pipeline { display: flex; align-items: center; gap: 0; }
+.phase-step {
+  display: flex; align-items: center; gap: 0;
+}
+.phase-dot {
+  width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.phase-dot.done { background: var(--green); }
+.phase-dot.active { background: var(--navy); animation: pulse 1.5s infinite; }
+.phase-dot.pending { background: #ccc; }
+.phase-line { width: 16px; height: 2px; flex-shrink: 0; }
+.phase-line.done { background: var(--green); }
+.phase-line.active { background: var(--navy); }
+.phase-line.pending { background: #ddd; }
+.phase-labels { display: flex; gap: 0; margin-top: 2px; }
+.phase-label { width: 22px; text-align: center; font-size: 8px; color: var(--gray); flex-shrink: 0; }
+.phase-label-gap { width: 16px; flex-shrink: 0; }
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
 @media (max-width: 1100px) {
   .summary-grid { grid-template-columns: repeat(2, 1fr); }
   .grid-2 { grid-template-columns: 1fr; }
@@ -372,6 +394,12 @@ tr:hover { background: var(--gray-light); }
       <div class="nav-item" onclick="switchPage('contract',this)" data-page="contract">
         <span class="icon">📄</span><span>계약관리</span>
       </div>
+      <div class="nav-item" onclick="switchPage('comm',this)" data-page="comm">
+        <span class="icon">💬</span><span>커뮤니케이션</span>
+      </div>
+      <div class="nav-item" onclick="switchPage('minutes',this)" data-page="minutes">
+        <span class="icon">📝</span><span>회의록</span>
+      </div>
       <div class="nav-item" onclick="switchPage('settings',this)" data-page="settings">
         <span class="icon">⚙️</span><span>설정</span>
       </div>
@@ -419,37 +447,121 @@ tr:hover { background: var(--gray-light); }
             <div class="s-icon" style="background:#F3E5F5">📝</div>
             <div><div class="s-value">3</div><div class="s-label">진행 중 제안</div></div>
           </div>
+          <div class="summary-card" style="border-left:3px solid var(--red)">
+            <div class="s-icon" style="background:#FFEBEE">🚨</div>
+            <div><div class="s-value" style="color:var(--red)">4</div><div class="s-label">철수 예정 인력 <span class="badge badge-red" style="font-size:10px">재배치 필요</span></div></div>
+          </div>
+        </div>
+
+        <!-- 철수 예정 인력 섹션 -->
+        <div class="card mb-16" style="margin-bottom:20px;border-left:3px solid var(--red)">
+          <div class="flex-between" style="margin-bottom:14px">
+            <div class="section-title" style="margin-bottom:0">🚨 철수 예정 인력 <span class="badge badge-red">재배치 필요</span></div>
+          </div>
+          <table>
+            <thead><tr><th>이름</th><th>현재 프로젝트</th><th>철수일</th><th>D-day</th><th>상태</th></tr></thead>
+            <tbody>
+              <tr style="background:#FFF5F5"><td class="fw-700">한소영</td><td>현대모비스 MES 구축</td><td>2026.03.10</td><td style="color:var(--red);font-weight:700">D-15</td><td><span class="badge badge-red">미배치</span></td></tr>
+              <tr style="background:#FFF5F5"><td class="fw-700">강동원</td><td>삼성SDS 물류TMS</td><td>2026.03.15</td><td style="color:var(--red);font-weight:700">D-20</td><td><span class="badge badge-red">미배치</span></td></tr>
+              <tr><td class="fw-700">이수진</td><td>KB손보 SFA 고도화</td><td>2026.03.31</td><td style="color:var(--orange);font-weight:700">D-36</td><td><span class="badge badge-orange">검토중</span></td></tr>
+              <tr><td class="fw-700">정현우</td><td>현대모비스 MES 구축</td><td>2026.04.15</td><td style="color:var(--orange);font-weight:700">D-51</td><td><span class="badge badge-green">배치확정</span></td></tr>
+            </tbody>
+          </table>
         </div>
 
         <div class="grid-2">
           <div class="card">
-            <div class="section-title">프로젝트 현황</div>
-            <div style="display:flex;flex-direction:column;gap:14px">
+            <div class="section-title">프로젝트 단계 현황</div>
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <!-- 현대모비스 -->
               <div>
-                <div class="flex-between mb-16" style="margin-bottom:4px"><span class="fw-700">현대모비스 MES 구축</span><span class="badge badge-blue">진행중</span></div>
-                <div class="progress-bar"><div class="fill fill-navy" style="width:68%"></div></div>
-                <div class="text-sm text-gray" style="margin-top:2px">68% · 2025.03 ~ 2025.12</div>
+                <div class="flex-between" style="margin-bottom:6px"><span class="fw-700">현대모비스 MES 구축</span><span class="text-sm text-gray">68%</span></div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div class="phase-pipeline">
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot active">3</div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div>
+                  </div>
+                  <span class="badge badge-blue" style="margin-left:8px">개발</span>
+                </div>
+                <div style="display:flex;gap:0;margin-top:2px">
+                  <span style="width:22px;text-align:center;font-size:8px;color:var(--gray)">분석</span><span style="width:16px"></span>
+                  <span style="width:22px;text-align:center;font-size:8px;color:var(--gray)">설계</span><span style="width:16px"></span>
+                  <span style="width:22px;text-align:center;font-size:8px;color:var(--navy);font-weight:600">개발</span><span style="width:16px"></span>
+                  <span style="width:22px;text-align:center;font-size:8px;color:var(--gray)">테스트</span><span style="width:16px"></span>
+                  <span style="width:22px;text-align:center;font-size:8px;color:var(--gray)">배포</span><span style="width:16px"></span>
+                  <span style="width:22px;text-align:center;font-size:8px;color:var(--gray)">안정</span>
+                </div>
               </div>
+              <!-- KB손보 -->
               <div>
-                <div class="flex-between" style="margin-bottom:4px"><span class="fw-700">KB손보 SFA 고도화</span><span class="badge badge-blue">진행중</span></div>
-                <div class="progress-bar"><div class="fill fill-navy" style="width:42%"></div></div>
-                <div class="text-sm text-gray" style="margin-top:2px">42% · 2025.06 ~ 2026.03</div>
+                <div class="flex-between" style="margin-bottom:6px"><span class="fw-700">KB손보 SFA 고도화</span><span class="text-sm text-gray">70%</span></div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div class="phase-pipeline">
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot active">4</div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div>
+                  </div>
+                  <span class="badge badge-blue" style="margin-left:8px">테스트</span>
+                </div>
               </div>
+              <!-- 농협 -->
               <div>
-                <div class="flex-between" style="margin-bottom:4px"><span class="fw-700">농협 차세대 시스템</span><span class="badge badge-green">완료</span></div>
-                <div class="progress-bar"><div class="fill fill-green" style="width:100%"></div></div>
-                <div class="text-sm text-gray" style="margin-top:2px">100% · 2024.09 ~ 2025.08</div>
+                <div class="flex-between" style="margin-bottom:6px"><span class="fw-700">농협 차세대 시스템</span><span class="text-sm text-gray">100%</span></div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div class="phase-pipeline">
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot done">✓</div>
+                  </div>
+                  <span class="badge badge-green" style="margin-left:8px">완료</span>
+                </div>
               </div>
+              <!-- 삼성SDS -->
               <div>
-                <div class="flex-between" style="margin-bottom:4px"><span class="fw-700">삼성SDS 물류TMS</span><span class="badge badge-orange">지연</span></div>
-                <div class="progress-bar"><div class="fill fill-red" style="width:35%"></div></div>
-                <div class="text-sm text-gray" style="margin-top:2px">35% · 2025.01 ~ 2025.09</div>
+                <div class="flex-between" style="margin-bottom:6px"><span class="fw-700">삼성SDS 물류TMS</span><span class="text-sm text-gray">35%</span></div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div class="phase-pipeline">
+                    <div class="phase-dot done">✓</div><div class="phase-line done"></div>
+                    <div class="phase-dot active" style="background:var(--red)">2</div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div>
+                  </div>
+                  <span class="badge badge-red" style="margin-left:8px">설계 지연</span>
+                </div>
               </div>
+              <!-- LG CNS -->
               <div>
-                <div class="flex-between" style="margin-bottom:4px"><span class="fw-700">LG CNS 데이터플랫폼</span><span class="badge badge-gray">준비</span></div>
-                <div class="progress-bar"><div class="fill fill-navy" style="width:10%"></div></div>
-                <div class="text-sm text-gray" style="margin-top:2px">10% · 2026.01 ~ 2026.12</div>
+                <div class="flex-between" style="margin-bottom:6px"><span class="fw-700">LG CNS 데이터플랫폼</span><span class="text-sm text-gray">10%</span></div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div class="phase-pipeline">
+                    <div class="phase-dot active">1</div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div><div class="phase-line pending"></div>
+                    <div class="phase-dot pending"></div>
+                  </div>
+                  <span class="badge badge-gray" style="margin-left:8px">분석</span>
+                </div>
               </div>
+            </div>
+            <div style="margin-top:14px;display:flex;gap:14px;font-size:11px;color:var(--gray)">
+              <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);vertical-align:middle"></span> 완료</span>
+              <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--navy);vertical-align:middle"></span> 진행중</span>
+              <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#ccc;vertical-align:middle"></span> 대기</span>
+              <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--red);vertical-align:middle"></span> 지연</span>
             </div>
           </div>
           <div class="card">
@@ -480,17 +592,176 @@ tr:hover { background: var(--gray-light); }
       <div class="page" id="page-hr">
         <div class="tabs">
           <button class="tab-btn active" onclick="switchTab(this,'hr-pool')">인력 풀</button>
+          <button class="tab-btn" onclick="switchTab(this,'hr-dist')">인력 분배</button>
           <button class="tab-btn" onclick="switchTab(this,'hr-resume')">이력서 업로드</button>
         </div>
 
         <div id="tab-hr-pool">
           <div class="filter-bar">
             <input type="text" placeholder="이름 또는 기술 검색..." style="width:200px">
-            <select><option>전체 상태</option><option>🟢 대기</option><option>🔴 투입중</option><option>🟡 부분투입</option></select>
+            <select><option>전체 상태</option><option>🟢 대기</option><option>🔴 투입중</option><option>🟡 부분투입</option><option>🟠 철수예정</option></select>
             <select><option>전체 경력</option><option>1~3년</option><option>4~7년</option><option>8년 이상</option></select>
             <select><option>전체 기술</option><option>Java</option><option>React</option><option>Spring Boot</option><option>Python</option><option>Oracle</option></select>
           </div>
           <div class="person-grid" id="personGrid"></div>
+        </div>
+
+        <!-- ===== 인력 분배 탭 ===== -->
+        <div id="tab-hr-dist" style="display:none">
+          <div class="filter-bar">
+            <select id="distProjFilter" style="min-width:220px">
+              <option value="all">전체 보기</option>
+              <option>현대모비스 MES 구축</option>
+              <option>KB손보 SFA 고도화</option>
+              <option>삼성SDS 물류TMS</option>
+              <option>LG CNS 데이터플랫폼</option>
+            </select>
+          </div>
+
+          <!-- 분배 보드 테이블 -->
+          <div class="card" style="padding:0;overflow:hidden;margin-bottom:20px">
+            <div style="padding:16px 20px 0"><div class="section-title">📋 인력 분배 보드</div></div>
+            <table>
+              <thead><tr><th>프로젝트</th><th>필요역할</th><th>필요스킬</th><th>현재배정</th><th>상태</th></tr></thead>
+              <tbody>
+                <tr><td class="fw-700">현대모비스 MES 구축</td><td>백엔드 개발</td><td>Java, Spring Boot, Oracle</td><td>정현우</td><td><span class="badge badge-green">✅ 배정완료</span></td></tr>
+                <tr><td class="fw-700">현대모비스 MES 구축</td><td>DBA</td><td>Oracle, 튜닝</td><td>한소영 <span class="badge badge-red" style="font-size:10px">철수예정</span></td><td><span class="badge badge-orange">⚠️ 충돌</span></td></tr>
+                <tr style="cursor:pointer" onclick="openRecommendPanel()"><td class="fw-700">KB손보 SFA 고도화</td><td>백엔드 개발</td><td>Java, Spring Boot, JPA</td><td>—</td><td><span class="badge badge-gray">⬜ 미배정</span></td></tr>
+                <tr><td class="fw-700">KB손보 SFA 고도화</td><td>프론트엔드</td><td>React, TypeScript</td><td>이수진</td><td><span class="badge badge-green">✅ 배정완료</span></td></tr>
+                <tr style="cursor:pointer" onclick="openRecommendPanel()"><td class="fw-700">삼성SDS 물류TMS</td><td>QA 엔지니어</td><td>Selenium, 테스트자동화</td><td>—</td><td><span class="badge badge-gray">⬜ 미배정</span></td></tr>
+                <tr><td class="fw-700">LG CNS 데이터플랫폼</td><td>데이터 엔지니어</td><td>Python, Spark, Airflow</td><td>장미래</td><td><span class="badge badge-green">✅ 배정완료</span></td></tr>
+                <tr style="cursor:pointer" onclick="openRecommendPanel()"><td class="fw-700">LG CNS 데이터플랫폼</td><td>풀스택 개발</td><td>React, Node.js, Python</td><td>—</td><td><span class="badge badge-gray">⬜ 미배정</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 가용 인력 타임라인 (간트) -->
+          <div class="card">
+            <div class="section-title">📅 가용 인력 타임라인</div>
+            <div style="overflow-x:auto">
+              <div style="min-width:800px">
+                <!-- 헤더 -->
+                <div style="display:flex;border-bottom:2px solid #eee">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-weight:600;font-size:12px;color:var(--gray)">인력</div>
+                  <div style="flex:1;display:flex">
+                    <div style="flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--gray);font-weight:600;border-left:1px solid #eee">2월</div>
+                    <div style="flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--gray);font-weight:600;border-left:1px solid #eee">3월</div>
+                    <div style="flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--gray);font-weight:600;border-left:1px solid #eee">4월</div>
+                    <div style="flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--gray);font-weight:600;border-left:1px solid #eee">5월</div>
+                    <div style="flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--gray);font-weight:600;border-left:1px solid #eee">6월</div>
+                    <div style="flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--gray);font-weight:600;border-left:1px solid #eee">7월</div>
+                  </div>
+                </div>
+                <!-- 김태영 -->
+                <div style="display:flex;border-bottom:1px solid #f0f0f0;align-items:center;min-height:40px">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-size:13px"><span class="fw-700">김태영</span> <span class="text-sm text-gray">PM</span></div>
+                  <div style="flex:1;display:flex;position:relative;height:28px">
+                    <div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div>
+                    <div style="position:absolute;height:18px;top:5px;left:0;width:100%;background:var(--navy);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">현대모비스 MES</div>
+                  </div>
+                </div>
+                <!-- 한소영 - 철수예정 -->
+                <div style="display:flex;border-bottom:1px solid #f0f0f0;align-items:center;min-height:40px;background:#FFF5F5">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-size:13px"><span class="fw-700">한소영</span> <span class="text-sm" style="color:var(--red)">DBA ⚠️</span></div>
+                  <div style="flex:1;display:flex;position:relative;height:28px">
+                    <div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div>
+                    <div style="position:absolute;height:18px;top:5px;left:0;width:18%;background:var(--navy);border-radius:9px 0 0 9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">MES</div>
+                    <div style="position:absolute;height:18px;top:5px;left:18%;width:15%;background:#FFCDD2;border-radius:0;display:flex;align-items:center;justify-content:center;color:var(--red);font-size:10px">대기</div>
+                    <div style="position:absolute;height:18px;top:5px;left:33%;width:30%;background:var(--green);border-radius:0 9px 9px 0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;opacity:0.6">추천: KB손보</div>
+                  </div>
+                </div>
+                <!-- 이수진 -->
+                <div style="display:flex;border-bottom:1px solid #f0f0f0;align-items:center;min-height:40px">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-size:13px"><span class="fw-700">이수진</span> <span class="text-sm text-gray">프론트</span></div>
+                  <div style="flex:1;display:flex;position:relative;height:28px">
+                    <div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div>
+                    <div style="position:absolute;height:18px;top:5px;left:0;width:33%;background:#2A5080;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">KB손보 SFA</div>
+                    <div style="position:absolute;height:18px;top:5px;left:33%;width:15%;background:#FFCDD2;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--red);font-size:10px">대기</div>
+                  </div>
+                </div>
+                <!-- 최민수 - 대기 -->
+                <div style="display:flex;border-bottom:1px solid #f0f0f0;align-items:center;min-height:40px;background:#F5FFF5">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-size:13px"><span class="fw-700">최민수</span> <span class="text-sm" style="color:var(--green)">풀스택 🟢</span></div>
+                  <div style="flex:1;display:flex;position:relative;height:28px">
+                    <div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div>
+                    <div style="position:absolute;height:18px;top:5px;left:0;width:100%;background:#E8F5E9;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--green);font-size:10px">대기 — 즉시 투입 가능</div>
+                  </div>
+                </div>
+                <!-- 강동원 - 철수예정 -->
+                <div style="display:flex;border-bottom:1px solid #f0f0f0;align-items:center;min-height:40px;background:#FFF5F5">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-size:13px"><span class="fw-700">강동원</span> <span class="text-sm" style="color:var(--red)">QA ⚠️</span></div>
+                  <div style="flex:1;display:flex;position:relative;height:28px">
+                    <div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div>
+                    <div style="position:absolute;height:18px;top:5px;left:0;width:22%;background:var(--navy);border-radius:9px 0 0 9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">삼성SDS</div>
+                    <div style="position:absolute;height:18px;top:5px;left:22%;width:78%;background:#FFCDD2;border-radius:0 9px 9px 0;display:flex;align-items:center;justify-content:center;color:var(--red);font-size:10px">대기 — 추천 없음</div>
+                  </div>
+                </div>
+                <!-- 장미래 -->
+                <div style="display:flex;border-bottom:1px solid #f0f0f0;align-items:center;min-height:40px">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-size:13px"><span class="fw-700">장미래</span> <span class="text-sm text-gray">데이터</span></div>
+                  <div style="flex:1;display:flex;position:relative;height:28px">
+                    <div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div>
+                    <div style="position:absolute;height:18px;top:5px;left:0;width:100%;background:var(--navy);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">LG CNS 데이터플랫폼</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:16px;font-size:11px;color:var(--gray)">
+              <span>■ <span style="color:var(--navy)">투입중</span></span>
+              <span>■ <span style="color:#E8F5E9">대기(가용)</span></span>
+              <span>■ <span style="color:#FFCDD2">대기(미배정)</span></span>
+              <span>■ <span style="color:var(--green);opacity:0.6">배정 추천</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 추천 패널 (슬라이드) -->
+        <div class="panel-overlay" id="recommendOverlay" onclick="closeRecommendPanel()"></div>
+        <div class="slide-panel" id="recommendPanel">
+          <button class="panel-close" onclick="closeRecommendPanel()">✕</button>
+          <h3 style="color:var(--navy);margin-top:16px;margin-bottom:16px">🤖 AI 인력 매칭 추천</h3>
+          <div style="background:var(--bg);padding:12px;border-radius:var(--radius-sm);margin-bottom:20px;font-size:13px">
+            <div class="fw-700" style="margin-bottom:6px">매칭 조건</div>
+            <div>필요역할: <b>백엔드 개발</b></div>
+            <div>필요스킬: <b>Java, Spring Boot, JPA</b></div>
+            <div>프로젝트: <b>KB손보 SFA 고도화</b></div>
+            <div style="margin-top:8px;font-size:11px;color:var(--gray)">가중치: 스킬 30% · 유사프로젝트 25% · 가용시점 20% · 경력 15% · 투입이력 10%</div>
+          </div>
+          <div class="section-title" style="font-size:14px">추천 인력 (점수순)</div>
+          <!-- 추천 1 -->
+          <div style="border:1.5px solid #ddd;border-radius:var(--radius-sm);padding:14px;margin-bottom:10px">
+            <div class="flex-between" style="margin-bottom:6px">
+              <span class="fw-700">박민지</span>
+              <span style="background:var(--green);color:#fff;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700">92점</span>
+            </div>
+            <div class="text-sm text-gray">과장 · 8년 · 백엔드 개발</div>
+            <div class="text-sm" style="margin-top:4px">상태: <span class="badge badge-blue">투입중</span> (현대모비스 MES, 12월 철수예정)</div>
+            <div class="text-sm" style="margin-top:4px;color:var(--navy)">💡 KB손보 이전 프로젝트 경험 있음 (가점 +5)</div>
+            <div class="tags" style="margin-top:6px"><span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">JPA</span><span class="tag">Oracle</span></div>
+            <button class="btn btn-sm btn-primary" style="margin-top:10px;width:100%">배정</button>
+          </div>
+          <!-- 추천 2 -->
+          <div style="border:1.5px solid #ddd;border-radius:var(--radius-sm);padding:14px;margin-bottom:10px">
+            <div class="flex-between" style="margin-bottom:6px">
+              <span class="fw-700">정현우</span>
+              <span style="background:var(--green);color:#fff;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700">85점</span>
+            </div>
+            <div class="text-sm text-gray">과장 · 7년 · 백엔드 개발</div>
+            <div class="text-sm" style="margin-top:4px">상태: <span class="badge badge-orange">철수예정</span> (현대모비스 MES, 4/15 철수)</div>
+            <div class="tags" style="margin-top:6px"><span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">Kafka</span><span class="tag">Redis</span></div>
+            <button class="btn btn-sm btn-primary" style="margin-top:10px;width:100%">배정</button>
+          </div>
+          <!-- 추천 3 -->
+          <div style="border:1.5px solid #ddd;border-radius:var(--radius-sm);padding:14px;margin-bottom:10px">
+            <div class="flex-between" style="margin-bottom:6px">
+              <span class="fw-700">임도현</span>
+              <span style="background:#FF9800;color:#fff;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700">61점</span>
+            </div>
+            <div class="text-sm text-gray">사원 · 1년 · 백엔드 개발</div>
+            <div class="text-sm" style="margin-top:4px">상태: <span class="badge badge-green">대기</span> (즉시 투입 가능)</div>
+            <div class="tags" style="margin-top:6px"><span class="tag">Python</span><span class="tag">Django</span><span class="tag">FastAPI</span></div>
+            <button class="btn btn-sm btn-outline" style="margin-top:10px;width:100%">배정</button>
+          </div>
         </div>
 
         <div id="tab-hr-resume" style="display:none">
@@ -537,13 +808,13 @@ tr:hover { background: var(--gray-light); }
           </div>
           <div class="card" style="padding:0;overflow:hidden">
             <table>
-              <thead><tr><th>프로젝트명</th><th>고객사</th><th>기간</th><th>상태</th><th>진행률</th><th>투입인원</th></tr></thead>
+              <thead><tr><th>프로젝트명</th><th>고객사</th><th>기간</th><th>현재단계</th><th>상태</th><th>진행률</th><th>투입인원</th></tr></thead>
               <tbody>
-                <tr><td class="fw-700">현대모비스 MES 구축</td><td>현대모비스</td><td>2025.03~2025.12</td><td><span class="badge badge-blue">진행</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-navy" style="width:68%"></div></div></td><td>12명</td></tr>
-                <tr><td class="fw-700">KB손보 SFA 고도화</td><td>KB손해보험</td><td>2025.06~2026.03</td><td><span class="badge badge-blue">진행</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-navy" style="width:42%"></div></div></td><td>8명</td></tr>
-                <tr><td class="fw-700">농협 차세대 시스템</td><td>NH농협</td><td>2024.09~2025.08</td><td><span class="badge badge-green">완료</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-green" style="width:100%"></div></div></td><td>15명</td></tr>
-                <tr><td class="fw-700">삼성SDS 물류TMS</td><td>삼성SDS</td><td>2025.01~2025.09</td><td><span class="badge badge-red">지연</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-red" style="width:35%"></div></div></td><td>10명</td></tr>
-                <tr><td class="fw-700">LG CNS 데이터플랫폼</td><td>LG CNS</td><td>2026.01~2026.12</td><td><span class="badge badge-gray">준비</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-navy" style="width:10%"></div></div></td><td>5명</td></tr>
+                <tr><td class="fw-700">현대모비스 MES 구축</td><td>현대모비스</td><td>2025.03~2025.12</td><td><span class="badge badge-blue">🔵 개발</span></td><td><span class="badge badge-blue">진행</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-navy" style="width:68%"></div></div></td><td>12명</td></tr>
+                <tr><td class="fw-700">KB손보 SFA 고도화</td><td>KB손해보험</td><td>2025.06~2026.03</td><td><span class="badge badge-blue">🔵 테스트</span></td><td><span class="badge badge-blue">진행</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-navy" style="width:70%"></div></div></td><td>8명</td></tr>
+                <tr><td class="fw-700">농협 차세대 시스템</td><td>NH농협</td><td>2024.09~2025.08</td><td><span class="badge badge-green">✅ 안정화</span></td><td><span class="badge badge-green">완료</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-green" style="width:100%"></div></div></td><td>15명</td></tr>
+                <tr><td class="fw-700">삼성SDS 물류TMS</td><td>삼성SDS</td><td>2025.01~2025.09</td><td><span class="badge badge-red">⚠️ 설계</span></td><td><span class="badge badge-red">지연</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-red" style="width:35%"></div></div></td><td>10명</td></tr>
+                <tr><td class="fw-700">LG CNS 데이터플랫폼</td><td>LG CNS</td><td>2026.01~2026.12</td><td><span class="badge badge-gray">⬜ 분석</span></td><td><span class="badge badge-gray">준비</span></td><td><div class="progress-bar" style="width:100px"><div class="fill fill-navy" style="width:10%"></div></div></td><td>5명</td></tr>
               </tbody>
             </table>
           </div>
@@ -615,19 +886,53 @@ tr:hover { background: var(--gray-light); }
           </div>
           <div class="card" style="padding:0;overflow:hidden">
             <table>
-              <thead><tr><th>이름</th><th>역할</th><th>투입률</th><th>기간</th><th>월 단가</th></tr></thead>
+              <thead><tr><th>이름</th><th>역할</th><th>투입률</th><th>기간</th><th>월 단가</th><th>철수</th></tr></thead>
               <tbody>
-                <tr><td class="fw-700">김태영</td><td>PM</td><td>100%</td><td>2025.03~2025.12</td><td>1,200만원</td></tr>
-                <tr><td class="fw-700">박민지</td><td>PL (백엔드)</td><td>100%</td><td>2025.03~2025.12</td><td>1,000만원</td></tr>
-                <tr><td class="fw-700">이수진</td><td>프론트엔드</td><td>100%</td><td>2025.04~2025.11</td><td>850만원</td></tr>
-                <tr><td class="fw-700">정현우</td><td>백엔드</td><td>100%</td><td>2025.04~2025.11</td><td>900만원</td></tr>
-                <tr><td class="fw-700">한소영</td><td>DBA</td><td>50%</td><td>2025.05~2025.10</td><td>500만원</td></tr>
-                <tr><td class="fw-700">오재혁</td><td>인프라</td><td>30%</td><td>2025.06~2025.12</td><td>350만원</td></tr>
+                <tr><td class="fw-700">김태영</td><td>PM</td><td>100%</td><td>2025.03~2025.12</td><td>1,200만원</td><td>D-305</td></tr>
+                <tr><td class="fw-700">박민지</td><td>PL (백엔드)</td><td>100%</td><td>2025.03~2025.12</td><td>1,000만원</td><td>D-305</td></tr>
+                <tr style="background:#FFF5F5"><td class="fw-700">이수진</td><td>프론트엔드</td><td>100%</td><td>2025.04~2026.03</td><td>850만원</td><td><span class="badge badge-red">D-36</span></td></tr>
+                <tr style="background:#FFF5F5"><td class="fw-700">정현우</td><td>백엔드</td><td>100%</td><td>2025.04~2026.04</td><td>900만원</td><td><span class="badge badge-orange">D-51</span></td></tr>
+                <tr style="background:#FFEBEE"><td class="fw-700">한소영</td><td>DBA</td><td>50%</td><td>2025.05~2026.03</td><td>500만원</td><td><span class="badge badge-red" style="animation:pulse 1.5s infinite">D-15 🚨</span></td></tr>
+                <tr><td class="fw-700">오재혁</td><td>인프라</td><td>30%</td><td>2025.06~2025.12</td><td>350만원</td><td>D-305</td></tr>
               </tbody>
               <tfoot>
-                <tr style="background:var(--bg);font-weight:700"><td colspan="2">합계 (6명)</td><td>평균 80%</td><td></td><td>4,800만원/월</td></tr>
+                <tr style="background:var(--bg);font-weight:700"><td colspan="2">합계 (6명)</td><td>평균 80%</td><td></td><td>4,800만원/월</td><td></td></tr>
               </tfoot>
             </table>
+          </div>
+
+          <!-- 대기 예정 인력 -->
+          <div class="card" style="margin-top:16px;border-left:3px solid var(--orange)">
+            <div class="section-title">🟠 대기 예정 인력 <span class="text-sm text-gray">— 곧 프로젝트에서 빠지는 인력</span></div>
+            <div class="person-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">
+              <div class="person-card" style="border-left:3px solid var(--red)">
+                <div class="person-avatar" style="background:var(--red)">한</div>
+                <div>
+                  <div class="p-name">한소영 <span class="badge badge-red" style="font-size:10px">D-15</span></div>
+                  <div class="p-role">DBA · 현대모비스 MES 구축</div>
+                  <div class="text-sm" style="margin-top:4px">철수일: 2026.03.10 · <span style="color:var(--red);font-weight:600">미배치</span></div>
+                  <div class="tags" style="margin-top:4px"><span class="tag">Oracle</span><span class="tag">PostgreSQL</span></div>
+                </div>
+              </div>
+              <div class="person-card" style="border-left:3px solid var(--red)">
+                <div class="person-avatar" style="background:var(--red)">강</div>
+                <div>
+                  <div class="p-name">강동원 <span class="badge badge-red" style="font-size:10px">D-20</span></div>
+                  <div class="p-role">QA · 삼성SDS 물류TMS</div>
+                  <div class="text-sm" style="margin-top:4px">철수일: 2026.03.15 · <span style="color:var(--red);font-weight:600">미배치</span></div>
+                  <div class="tags" style="margin-top:4px"><span class="tag">Selenium</span><span class="tag">테스트자동화</span></div>
+                </div>
+              </div>
+              <div class="person-card" style="border-left:3px solid var(--orange)">
+                <div class="person-avatar" style="background:var(--orange)">이</div>
+                <div>
+                  <div class="p-name">이수진 <span class="badge badge-orange" style="font-size:10px">D-36</span></div>
+                  <div class="p-role">프론트엔드 · KB손보 SFA 고도화</div>
+                  <div class="text-sm" style="margin-top:4px">철수일: 2026.03.31 · <span style="color:var(--orange);font-weight:600">검토중</span></div>
+                  <div class="tags" style="margin-top:4px"><span class="tag">React</span><span class="tag">TypeScript</span></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -779,6 +1084,285 @@ tr:hover { background: var(--gray-light); }
         </div>
       </div>
 
+      <!-- ===== COMMUNICATION PAGE ===== -->
+      <div class="page" id="page-comm">
+        <div class="section-title" style="margin-bottom:16px">연동 그룹</div>
+        <div class="grid-3" style="margin-bottom:24px">
+          <div class="card" style="border-left:3px solid var(--green)">
+            <div class="flex-between" style="margin-bottom:8px">
+              <span class="fw-700">현대모비스 MES 개발팀</span>
+              <span class="badge badge-green">연동중</span>
+            </div>
+            <div class="text-sm text-gray">👥 12명 · 최근 메시지 5분 전</div>
+            <div style="margin-top:8px;padding:8px;background:var(--gray-light);border-radius:var(--radius-sm);font-size:12px">
+              <b>박민지:</b> DB 마이그레이션 스크립트 올렸습니다
+            </div>
+          </div>
+          <div class="card" style="border-left:3px solid var(--green)">
+            <div class="flex-between" style="margin-bottom:8px">
+              <span class="fw-700">KB손보 SFA팀</span>
+              <span class="badge badge-green">연동중</span>
+            </div>
+            <div class="text-sm text-gray">👥 8명 · 최근 메시지 23분 전</div>
+            <div style="margin-top:8px;padding:8px;background:var(--gray-light);border-radius:var(--radius-sm);font-size:12px">
+              <b>이수진:</b> 화면 시안 피드백 부탁드립니다
+            </div>
+          </div>
+          <div class="card" style="border-left:3px solid var(--navy)">
+            <div class="flex-between" style="margin-bottom:8px">
+              <span class="fw-700">삼성SDS 물류TMS</span>
+              <span class="badge badge-blue">연동중</span>
+            </div>
+            <div class="text-sm text-gray">👥 10명 · 최근 메시지 1시간 전</div>
+            <div style="margin-top:8px;padding:8px;background:var(--gray-light);border-radius:var(--radius-sm);font-size:12px">
+              <b>강동원:</b> 테스트 결과 공유드립니다
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="flex-between" style="margin-bottom:14px">
+              <div class="section-title" style="margin-bottom:0">📋 오늘 대화 요약</div>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-sm btn-primary">요약 생성</button>
+                <button class="btn btn-sm btn-outline">주간 보고서</button>
+              </div>
+            </div>
+            <div style="margin-bottom:14px">
+              <div class="fw-700" style="margin-bottom:6px;color:var(--navy)">💬 주요 논의</div>
+              <ul style="padding-left:18px;font-size:13px;line-height:1.8;color:#555">
+                <li>DB 마이그레이션 일정 확정 (3/5 새벽 작업)</li>
+                <li>프론트엔드 성능 이슈 논의 → 김태영 담당</li>
+                <li>고객사 추가 요구사항 3건 접수</li>
+              </ul>
+            </div>
+            <div style="margin-bottom:14px">
+              <div class="fw-700" style="margin-bottom:6px;color:var(--orange)">📅 감지된 일정</div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <div style="padding:6px 10px;background:#FFF3E0;border-radius:var(--radius-sm);font-size:13px;display:flex;justify-content:space-between">
+                  <span>"3월 5일 새벽 2시 DB 마이그레이션"</span>
+                  <button class="btn btn-sm btn-green" style="padding:2px 8px;font-size:11px">스케줄 등록</button>
+                </div>
+                <div style="padding:6px 10px;background:#FFF3E0;border-radius:var(--radius-sm);font-size:13px;display:flex;justify-content:space-between">
+                  <span>"금요일까지 API 문서 정리"</span>
+                  <button class="btn btn-sm btn-green" style="padding:2px 8px;font-size:11px">스케줄 등록</button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="fw-700" style="margin-bottom:6px;color:var(--red)">🚨 이슈/리스크</div>
+              <div style="padding:8px 10px;background:#FFEBEE;border-radius:var(--radius-sm);font-size:13px">
+                ⚠️ "QA 인력이 부족해서 일정이 밀리고 있어요" — 강동원 (14:23)
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-title">💬 대화 로그</div>
+            <div style="font-size:12px;color:var(--gray);margin-bottom:12px">현대모비스 MES 개발팀</div>
+            <div style="display:flex;flex-direction:column;gap:10px;max-height:400px;overflow-y:auto">
+              <div style="display:flex;gap:8px;align-items:flex-start">
+                <div class="person-avatar" style="width:32px;height:32px;font-size:12px;background:#1B3A5C;flex-shrink:0">김</div>
+                <div><div style="font-size:11px;color:var(--gray)">김태영 · 09:15</div><div style="background:var(--gray-light);padding:8px 12px;border-radius:0 12px 12px 12px;font-size:13px;margin-top:2px">오늘 오후에 고객사 미팅 있습니다. 준비사항 확인해주세요</div></div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:flex-start">
+                <div class="person-avatar" style="width:32px;height:32px;font-size:12px;background:#4CAF50;flex-shrink:0">박</div>
+                <div><div style="font-size:11px;color:var(--gray)">박민지 · 09:30</div><div style="background:var(--gray-light);padding:8px 12px;border-radius:0 12px 12px 12px;font-size:13px;margin-top:2px">DB 마이그레이션 스크립트 올렸습니다. 3월 5일 새벽 2시에 작업하면 될 것 같아요</div></div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:flex-start">
+                <div class="person-avatar" style="width:32px;height:32px;font-size:12px;background:#E53935;flex-shrink:0">한</div>
+                <div><div style="font-size:11px;color:var(--gray)">한소영 · 10:05</div><div style="background:var(--gray-light);padding:8px 12px;border-radius:0 12px 12px 12px;font-size:13px;margin-top:2px">스크립트 검토했습니다. 인덱스 재생성 부분 추가 필요해요</div></div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:flex-start">
+                <div class="person-avatar" style="width:32px;height:32px;font-size:12px;background:#FF9800;flex-shrink:0">정</div>
+                <div><div style="font-size:11px;color:var(--gray)">정현우 · 11:20</div><div style="background:var(--gray-light);padding:8px 12px;border-radius:0 12px 12px 12px;font-size:13px;margin-top:2px">API 문서 금요일까지 정리해서 공유하겠습니다</div></div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:flex-start">
+                <div class="person-avatar" style="width:32px;height:32px;font-size:12px;background:#9C27B0;flex-shrink:0">강</div>
+                <div><div style="font-size:11px;color:var(--gray)">강동원 · 14:23</div><div style="background:#FFEBEE;padding:8px 12px;border-radius:0 12px 12px 12px;font-size:13px;margin-top:2px;border-left:2px solid var(--red)">QA 인력이 부족해서 일정이 밀리고 있어요. 테스트 케이스가 200건 넘는데 혼자는 힘듭니다</div></div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:flex-start">
+                <div class="person-avatar" style="width:32px;height:32px;font-size:12px;background:#1B3A5C;flex-shrink:0">김</div>
+                <div><div style="font-size:11px;color:var(--gray)">김태영 · 14:35</div><div style="background:var(--gray-light);padding:8px 12px;border-radius:0 12px 12px 12px;font-size:13px;margin-top:2px">내일 회의에서 QA 인력 충원 논의하겠습니다. 내일 10시에 모여주세요</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== MINUTES PAGE ===== -->
+      <div class="page" id="page-minutes">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'min-list')">회의록 목록</button>
+          <button class="tab-btn" onclick="switchTab(this,'min-upload')">녹취 업로드</button>
+        </div>
+
+        <div id="tab-min-list">
+          <div class="flex-between mb-16">
+            <div class="filter-bar" style="margin-bottom:0">
+              <input type="text" placeholder="회의명 검색..." style="width:200px">
+              <select><option>전체 프로젝트</option><option>현대모비스 MES</option><option>KB손보 SFA</option><option>삼성SDS 물류TMS</option></select>
+            </div>
+            <button class="btn btn-primary">+ 회의록 작성</button>
+          </div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <table>
+              <thead><tr><th>회의명</th><th>프로젝트</th><th>날짜</th><th>참석자</th><th>TODO</th><th>상태</th></tr></thead>
+              <tbody>
+                <tr style="cursor:pointer" onclick="showMinutesDetail(0)">
+                  <td class="fw-700">주간 진행상황 회의</td>
+                  <td>현대모비스 MES</td>
+                  <td>2026.02.21</td>
+                  <td>김태영, 박민지, 한소영 외 3명</td>
+                  <td><span class="badge badge-orange">5건</span></td>
+                  <td><span class="badge badge-green">완료</span></td>
+                </tr>
+                <tr style="cursor:pointer" onclick="showMinutesDetail(1)">
+                  <td class="fw-700">요구사항 검토 회의</td>
+                  <td>KB손보 SFA</td>
+                  <td>2026.02.19</td>
+                  <td>이수진, 정현우 외 2명</td>
+                  <td><span class="badge badge-orange">3건</span></td>
+                  <td><span class="badge badge-green">완료</span></td>
+                </tr>
+                <tr style="cursor:pointer" onclick="showMinutesDetail(2)">
+                  <td class="fw-700">이슈 대응 긴급회의</td>
+                  <td>삼성SDS 물류TMS</td>
+                  <td>2026.02.18</td>
+                  <td>강동원, 오재혁 외 4명</td>
+                  <td><span class="badge badge-red">7건</span></td>
+                  <td><span class="badge badge-blue">편집중</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 회의록 상세 (토글) -->
+          <div id="minutesDetailPanel" style="display:none;margin-top:20px">
+            <div class="card">
+              <div class="flex-between" style="margin-bottom:16px">
+                <h3 style="color:var(--navy)" id="mdTitle">주간 진행상황 회의</h3>
+                <div style="display:flex;gap:8px">
+                  <button class="btn btn-sm btn-outline">PDF 내보내기</button>
+                  <button class="btn btn-sm btn-outline">텔레그램 공유</button>
+                  <button class="btn btn-sm btn-primary">편집</button>
+                </div>
+              </div>
+              <div class="text-sm text-gray" style="margin-bottom:16px" id="mdMeta">2026.02.21 · 현대모비스 MES · 참석: 김태영, 박민지, 한소영 외 3명</div>
+
+              <div class="grid-2" style="gap:16px">
+                <div>
+                  <div class="fw-700" style="margin-bottom:8px;color:var(--navy)">📋 회의 요약</div>
+                  <div style="background:var(--gray-light);padding:14px;border-radius:var(--radius-sm);font-size:13px;line-height:1.8" id="mdSummary">
+                    1. DB 마이그레이션 일정 확정 (3/5 새벽 2시)<br>
+                    2. 프론트엔드 성능 최적화 방안 논의 → React.lazy 적용 결정<br>
+                    3. 고객사 추가 요구사항 3건 검토 → 2건 수용, 1건 보류<br>
+                    4. QA 인력 부족 이슈 → 외주 QA 1명 충원 검토
+                  </div>
+                </div>
+                <div>
+                  <div class="fw-700" style="margin-bottom:8px;color:var(--navy)">✅ TODO 리스트</div>
+                  <div style="display:flex;flex-direction:column;gap:6px" id="mdTodos">
+                    <div style="padding:8px 12px;background:var(--gray-light);border-radius:var(--radius-sm);font-size:13px;display:flex;justify-content:space-between;align-items:center">
+                      <span>DB 마이그레이션 스크립트 최종 검토</span>
+                      <span class="text-sm"><b>박민지</b> · 3/4까지</span>
+                    </div>
+                    <div style="padding:8px 12px;background:var(--gray-light);border-radius:var(--radius-sm);font-size:13px;display:flex;justify-content:space-between;align-items:center">
+                      <span>React.lazy 적용 및 번들 분석</span>
+                      <span class="text-sm"><b>정현우</b> · 3/7까지</span>
+                    </div>
+                    <div style="padding:8px 12px;background:var(--gray-light);border-radius:var(--radius-sm);font-size:13px;display:flex;justify-content:space-between;align-items:center">
+                      <span>추가 요구사항 기술검토서 작성</span>
+                      <span class="text-sm"><b>김태영</b> · 3/5까지</span>
+                    </div>
+                    <div style="padding:8px 12px;background:var(--gray-light);border-radius:var(--radius-sm);font-size:13px;display:flex;justify-content:space-between;align-items:center">
+                      <span>외주 QA 업체 견적 요청</span>
+                      <span class="text-sm"><b>한소영</b> · 3/3까지</span>
+                    </div>
+                    <div style="padding:8px 12px;background:var(--gray-light);border-radius:var(--radius-sm);font-size:13px;display:flex;justify-content:space-between;align-items:center">
+                      <span>보류 요구사항 고객사 회신</span>
+                      <span class="text-sm"><b>김태영</b> · 3/6까지</span>
+                    </div>
+                  </div>
+                  <button class="btn btn-sm btn-green" style="margin-top:10px">📅 스케줄에 등록</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-min-upload" style="display:none">
+          <div class="upload-zone" id="audioUploadZone">
+            <div class="uz-icon">🎙️</div>
+            <div style="font-size:16px;font-weight:600;margin-bottom:4px">녹취 파일을 드래그하거나 클릭하세요</div>
+            <div class="text-sm">MP3, M4A, WAV, WebM 지원 (최대 500MB)</div>
+          </div>
+
+          <!-- 변환 결과 미리보기 -->
+          <div id="sttResult" style="display:none">
+            <div class="card" style="margin-bottom:16px;border-left:3px solid var(--green)">
+              <div class="flex-between" style="margin-bottom:10px">
+                <div class="section-title" style="margin-bottom:0">✅ 변환 완료</div>
+                <span class="text-sm text-gray">회의_20260221.m4a · 42분 15초</span>
+              </div>
+
+              <div class="fw-700" style="margin-bottom:8px;color:var(--navy)">📋 회의 요약</div>
+              <div style="background:var(--gray-light);padding:14px;border-radius:var(--radius-sm);font-size:13px;line-height:1.8;margin-bottom:16px">
+                주간 개발 진행상황을 공유하고, DB 마이그레이션 일정과 프론트엔드 성능 최적화 방안을 논의함.
+                고객사 추가 요구사항 3건을 검토하여 2건 수용, 1건 보류로 결정함.
+                QA 인력 부족 이슈에 대해 외주 충원을 검토하기로 함.
+              </div>
+
+              <div class="fw-700" style="margin-bottom:8px;color:var(--navy)">✅ TODO 리스트</div>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+                <div style="padding:8px 12px;background:var(--gray-light);border-radius:var(--radius-sm);font-size:13px;display:flex;justify-content:space-between;align-items:center">
+                  <span>☐ DB 마이그레이션 스크립트 최종 검토</span>
+                  <span class="text-sm"><b>김PM</b> · 3/4까지</span>
+                </div>
+                <div style="padding:8px 12px;background:var(--gray-light);border-radius:var(--radius-sm);font-size:13px;display:flex;justify-content:space-between;align-items:center">
+                  <span>☐ 프론트엔드 번들 사이즈 분석</span>
+                  <span class="text-sm"><b>이개발</b> · 3/7까지</span>
+                </div>
+                <div style="padding:8px 12px;background:var(--gray-light);border-radius:var(--radius-sm);font-size:13px;display:flex;justify-content:space-between;align-items:center">
+                  <span>☐ 외주 QA 업체 3곳 견적 비교</span>
+                  <span class="text-sm"><b>한DBA</b> · 3/3까지</span>
+                </div>
+              </div>
+
+              <div class="fw-700" style="margin-bottom:8px;color:var(--navy)">🗣️ 원본 텍스트 (화자 분리)</div>
+              <div style="max-height:200px;overflow-y:auto;background:var(--gray-light);padding:14px;border-radius:var(--radius-sm);font-size:12px;line-height:2">
+                <b style="color:var(--navy)">화자1 (김PM):</b> 그럼 주간 회의 시작하겠습니다. 먼저 DB 마이그레이션 건부터...<br>
+                <b style="color:var(--green)">화자2 (박개발):</b> 네, 스크립트 작성 완료했고요. 3월 5일 새벽 2시에 작업하면 될 것 같습니다.<br>
+                <b style="color:var(--red)">화자3 (한DBA):</b> 스크립트 검토해봤는데, 인덱스 재생성 부분이 빠져있어요. 추가 필요합니다.<br>
+                <b style="color:var(--navy)">화자1 (김PM):</b> 알겠습니다. 그 부분 수정해서 4일까지 최종 확인해주세요.<br>
+                <b style="color:#9C27B0">화자4 (이개발):</b> 프론트엔드 성능 이슈 관련해서, React.lazy를 적용하면 초기 로딩을 30% 줄일 수 있을 것 같아요.
+              </div>
+
+              <div style="display:flex;gap:8px;margin-top:16px;justify-content:flex-end">
+                <button class="btn btn-green">📅 스케줄에 등록</button>
+                <button class="btn btn-primary">💾 회의록 저장</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 변환중 상태 -->
+          <div id="sttProcessing" style="display:none">
+            <div class="card" style="text-align:center;padding:40px">
+              <div style="font-size:40px;margin-bottom:12px">⏳</div>
+              <div class="fw-700" style="font-size:18px;margin-bottom:8px">변환 중...</div>
+              <div class="text-gray">회의_20260221.m4a (42분 15초)</div>
+              <div class="progress-bar" style="width:300px;margin:16px auto 8px"><div class="fill fill-navy" style="width:65%"></div></div>
+              <div class="text-sm text-gray">STT 변환 65% · 예상 소요시간 2분</div>
+            </div>
+          </div>
+
+          <div class="text-sm text-gray" style="margin-top:12px;text-align:center">
+            💡 녹취 파일 업로드 시 Whisper로 STT 변환 후, AI가 자동으로 회의록을 생성합니다
+          </div>
+        </div>
+      </div>
+
       <!-- ===== SETTINGS PAGE ===== -->
       <div class="page" id="page-settings">
         <div class="grid-2">
@@ -825,6 +1409,8 @@ tr:hover { background: var(--gray-light); }
     <label>종료일</label><input type="date">
     <label>PM</label>
     <select><option>김태영</option><option>박민지</option><option>이수진</option></select>
+    <label>현재 단계</label>
+    <select><option>분석</option><option>설계</option><option>개발</option><option>테스트</option><option>배포</option><option>안정화</option></select>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeModal('projModal')">취소</button>
       <button class="btn btn-primary" onclick="closeModal('projModal')">등록</button>
@@ -871,18 +1457,18 @@ const people = [
   { name:'박민지', role:'백엔드 개발', level:'과장', skills:['Java','Spring Boot','JPA','Oracle'], status:'투입중', color:'#E53935', exp:'8년', projects:['현대모비스 MES 구축'] },
   { name:'이수진', role:'프론트엔드 개발', level:'대리', skills:['React','TypeScript','Next.js','Figma'], status:'투입중', color:'#E53935', exp:'5년', projects:['KB손보 SFA 고도화'] },
   { name:'정현우', role:'백엔드 개발', level:'과장', skills:['Java','Spring Boot','Kafka','Redis'], status:'투입중', color:'#E53935', exp:'7년', projects:['현대모비스 MES 구축'] },
-  { name:'한소영', role:'DBA', level:'차장', skills:['Oracle','PostgreSQL','MySQL','튜닝'], status:'부분투입', color:'#FF9800', exp:'10년', projects:['현대모비스 MES 구축','KB손보 SFA'] },
+  { name:'한소영', role:'DBA', level:'차장', skills:['Oracle','PostgreSQL','MySQL','튜닝'], status:'철수예정', color:'#E65100', exp:'10년', projects:['현대모비스 MES 구축'], withdrawal:'D-15' },
   { name:'오재혁', role:'인프라/클라우드', level:'대리', skills:['AWS','Docker','K8s','Terraform'], status:'부분투입', color:'#FF9800', exp:'4년', projects:['현대모비스 MES 구축'] },
   { name:'최민수', role:'풀스택 개발', level:'사원', skills:['React','Node.js','Python','MongoDB'], status:'대기', color:'#4CAF50', exp:'2년', projects:[] },
   { name:'윤지현', role:'UI/UX 디자이너', level:'대리', skills:['Figma','Adobe XD','CSS','디자인시스템'], status:'대기', color:'#4CAF50', exp:'4년', projects:[] },
-  { name:'강동원', role:'QA 엔지니어', level:'과장', skills:['Selenium','Jira','테스트자동화','성능테스트'], status:'투입중', color:'#E53935', exp:'6년', projects:['삼성SDS 물류TMS'] },
+  { name:'강동원', role:'QA 엔지니어', level:'과장', skills:['Selenium','Jira','테스트자동화','성능테스트'], status:'철수예정', color:'#E65100', exp:'6년', projects:['삼성SDS 물류TMS'], withdrawal:'D-20' },
   { name:'서예진', role:'BA / 분석가', level:'차장', skills:['요구사항분석','BPMN','UML','기획'], status:'대기', color:'#4CAF50', exp:'9년', projects:[] },
   { name:'임도현', role:'백엔드 개발', level:'사원', skills:['Python','Django','FastAPI','AWS'], status:'대기', color:'#4CAF50', exp:'1년', projects:[] },
   { name:'장미래', role:'데이터 엔지니어', level:'대리', skills:['Python','Spark','Airflow','BigQuery'], status:'투입중', color:'#E53935', exp:'3년', projects:['LG CNS 데이터플랫폼'] },
 ];
 
-const statusMap = { '대기':'🟢', '투입중':'🔴', '부분투입':'🟡' };
-const statusBadge = { '대기':'badge-green', '투입중':'badge-red', '부분투입':'badge-orange' };
+const statusMap = { '대기':'🟢', '투입중':'🔴', '부분투입':'🟡', '철수예정':'🟠' };
+const statusBadge = { '대기':'badge-green', '투입중':'badge-red', '부분투입':'badge-orange', '철수예정':'badge-orange' };
 const avatarColors = ['#1B3A5C','#4CAF50','#E53935','#FF9800','#9C27B0','#00BCD4','#795548','#607D8B'];
 
 function renderPeople() {
@@ -894,7 +1480,7 @@ function renderPeople() {
         <div class="p-name">${p.name} <span class="text-sm text-gray">${p.level}</span></div>
         <div class="p-role">${p.role} · ${p.exp}</div>
         <div class="tags">${p.skills.map(s=>`<span class="tag">${s}</span>`).join('')}</div>
-        <div style="margin-top:6px"><span class="badge ${statusBadge[p.status]}">${statusMap[p.status]} ${p.status}</span></div>
+        <div style="margin-top:6px"><span class="badge ${statusBadge[p.status]}">${statusMap[p.status]} ${p.status}</span>${p.withdrawal ? ` <span class="badge badge-red" style="font-size:10px">${p.withdrawal}</span>` : ''}</div>
       </div>
     </div>
   `).join('');
@@ -913,6 +1499,17 @@ function showPerson(i) {
     <div class="tags" style="margin-bottom:16px">${p.skills.map(s=>`<span class="tag">${s}</span>`).join('')}</div>
     <div class="section-title" style="font-size:14px">현재 투입 프로젝트</div>
     <div style="margin-bottom:16px">${p.projects.length ? p.projects.map(pr=>`<div style="padding:6px 0">📁 ${pr}</div>`).join('') : '<div class="text-gray">투입된 프로젝트 없음</div>'}</div>
+    <div class="section-title" style="font-size:14px">프로젝트 이력</div>
+    <div style="margin-bottom:16px;overflow-x:auto">
+      <table style="font-size:12px;min-width:100%">
+        <thead><tr><th style="padding:6px 8px">프로젝트명</th><th style="padding:6px 8px">수행업체</th><th style="padding:6px 8px">기간</th><th style="padding:6px 8px">업무</th><th style="padding:6px 8px">스킬/툴</th></tr></thead>
+        <tbody>
+          <tr><td style="padding:6px 8px">현대모비스 MES 구축</td><td style="padding:6px 8px">현대모비스</td><td style="padding:6px 8px">2025.03~현재</td><td style="padding:6px 8px">${p.role}</td><td style="padding:6px 8px">${p.skills.slice(0,2).join(', ')}</td></tr>
+          <tr><td style="padding:6px 8px">KB손보 SFA 고도화</td><td style="padding:6px 8px">KB손해보험</td><td style="padding:6px 8px">2024.01~2024.12</td><td style="padding:6px 8px">${p.role}</td><td style="padding:6px 8px">${p.skills.slice(0,3).join(', ')}</td></tr>
+          <tr><td style="padding:6px 8px">농협 차세대 시스템</td><td style="padding:6px 8px">NH농협</td><td style="padding:6px 8px">2022.06~2023.08</td><td style="padding:6px 8px">${p.role}</td><td style="padding:6px 8px">${p.skills.slice(1,3).join(', ')}</td></tr>
+        </tbody>
+      </table>
+    </div>
     <div class="section-title" style="font-size:14px">AI 요약</div>
     <div style="background:var(--bg);padding:12px;border-radius:var(--radius-sm);font-size:13px;line-height:1.6">
       ${p.name}님은 ${p.exp} 경력의 ${p.role} 전문가입니다. 주요 기술은 ${p.skills.slice(0,3).join(', ')}이며, ${p.status === '대기' ? '현재 새 프로젝트 투입이 가능합니다.' : '현재 프로젝트에 투입 중입니다.'}
@@ -930,7 +1527,7 @@ function closePanel() {
 // ===== NAV =====
 const pageTitles = {
   dashboard:'대시보드', hr:'인력관리', project:'프로젝트', cost:'비용관리',
-  proposal:'제안관리', contract:'계약관리', settings:'설정'
+  proposal:'제안관리', contract:'계약관리', comm:'커뮤니케이션', minutes:'회의록', settings:'설정'
 };
 
 function switchPage(page, el) {
@@ -976,6 +1573,36 @@ function doLogout() {
 }
 
 // ===== PROPOSAL/CONTRACT DETAIL (simple alert for wireframe) =====
+// ===== MINUTES =====
+function showMinutesDetail(idx) {
+  document.getElementById('minutesDetailPanel').style.display = 'block';
+  document.getElementById('minutesDetailPanel').scrollIntoView({behavior:'smooth'});
+}
+
+// Audio upload simulation
+document.addEventListener('DOMContentLoaded', function() {
+  const zone = document.getElementById('audioUploadZone');
+  if(zone) {
+    zone.addEventListener('click', function() {
+      document.getElementById('audioUploadZone').style.display='none';
+      document.getElementById('sttProcessing').style.display='block';
+      setTimeout(function(){
+        document.getElementById('sttProcessing').style.display='none';
+        document.getElementById('sttResult').style.display='block';
+      }, 2000);
+    });
+  }
+});
+
+function openRecommendPanel() {
+  document.getElementById('recommendPanel').classList.add('open');
+  document.getElementById('recommendOverlay').classList.add('show');
+}
+function closeRecommendPanel() {
+  document.getElementById('recommendPanel').classList.remove('open');
+  document.getElementById('recommendOverlay').classList.remove('show');
+}
+
 function openProposalDetail() {
   alert('제안 상세 패널: SK하이닉스 ERP 구축\n\n예상금액: 15억\n제안일: 2026.03.15\n경쟁사: A사, B사\n투입예정: 김태영(PM), 정현우(PL), 외 5명\n\n※ 와이어프레임에서는 슬라이드 패널로 구현 예정');
 }
