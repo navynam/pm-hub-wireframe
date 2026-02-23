@@ -636,7 +636,7 @@ function showProjectDetail(id){
   ).join('');
   // Schedule tab
   document.getElementById('proj-schedule').innerHTML='<div style="padding:12px 16px">'+p.milestones.map(m=>
-    `<div class="milestone"><div class="check${m.done?' done'}">${m.done?'✓':'　'}</div><div><div style="font-weight:600">${m.name}</div><div style="font-size:12px;color:${m.warn?'var(--warn)':'var(--text2)'}">${m.date}</div></div></div>`
+    `<div class="milestone"><div class="check${m.done?" done":""}">${m.done?"✓":"　"}</div><div><div style="font-weight:600">${m.name}</div><div style="font-size:12px;color:${m.warn?"var(--warn)":"var(--text2)"}">${m.date}</div></div></div>`
   ).join('')+'</div>';
   // Reset tab
   document.querySelectorAll('.proj-tab-content').forEach(el=>el.style.display='none');
