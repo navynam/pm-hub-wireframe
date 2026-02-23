@@ -5,187 +5,122 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>PM Hub Mobile</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-:root { --main:#1B3A5C; --sub:#E8EEF5; --accent:#4CAF50; --danger:#E53935; --warn:#FF9800; --bg:#F5F7FA; --card:#fff; --text:#333; --text2:#777; --radius:14px; --tab-h:60px; --header-h:56px; }
-body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); max-width:430px; margin:0 auto; min-height:100vh; overflow-x:hidden; }
-.page { display:none; flex-direction:column; min-height:100vh; padding-bottom:var(--tab-h); }
-.page.active { display:flex; }
-.page.fullscreen { padding-bottom:0; }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--main:#1B3A5C;--sub:#E8EEF5;--accent:#4CAF50;--danger:#E53935;--warn:#FF9800;--bg:#F5F7FA;--card:#fff;--text:#333;--text2:#777;--radius:14px;--tab-h:60px;--header-h:56px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);max-width:430px;margin:0 auto;min-height:100vh;overflow-x:hidden}
+.page{display:none;flex-direction:column;min-height:100vh;padding-bottom:var(--tab-h)}
+.page.active{display:flex}
+.page.fullscreen{padding-bottom:0}
 
-/* Header */
-.header { display:flex; align-items:center; justify-content:space-between; padding:0 16px; height:var(--header-h); background:var(--main); color:#fff; position:sticky; top:0; z-index:100; }
-.header .logo { font-size:20px; font-weight:700; letter-spacing:-0.5px; }
-.header .actions { display:flex; align-items:center; gap:14px; }
-.header .bell { position:relative; font-size:22px; cursor:pointer; }
-.header .bell .badge { position:absolute; top:-4px; right:-6px; background:var(--danger); color:#fff; font-size:10px; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; }
-.header .avatar { width:32px; height:32px; border-radius:50%; background:var(--sub); display:flex; align-items:center; justify-content:center; font-size:14px; cursor:pointer; }
-.header .back { font-size:24px; cursor:pointer; margin-right:8px; }
+.header{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:var(--header-h);background:var(--main);color:#fff;position:sticky;top:0;z-index:100}
+.header .logo{font-size:20px;font-weight:700;letter-spacing:-.5px}
+.header .actions{display:flex;align-items:center;gap:14px}
+.header .avatar{width:32px;height:32px;border-radius:50%;background:var(--sub);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer}
+.header .back{font-size:24px;cursor:pointer;margin-right:8px}
 
-/* Tab Bar */
-.tab-bar { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:430px; height:var(--tab-h); background:#fff; display:flex; border-top:1px solid #e0e0e0; z-index:200; }
-.tab-bar .tab { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:10px; color:var(--text2); cursor:pointer; transition:.2s; gap:2px; }
-.tab-bar .tab.active { color:var(--main); }
-.tab-bar .tab .icon { font-size:22px; }
+.tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;height:var(--tab-h);background:#fff;display:flex;border-top:1px solid #e0e0e0;z-index:200}
+.tab-bar .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:var(--text2);cursor:pointer;transition:.2s;gap:2px;position:relative}
+.tab-bar .tab.active{color:var(--main);font-weight:700}
+.tab-bar .tab .icon{font-size:22px}
+.tab-bar .tab .tab-badge{position:absolute;top:6px;right:calc(50% - 20px);background:var(--danger);color:#fff;font-size:9px;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;padding:0 4px}
 
-/* Cards */
-.card { background:var(--card); border-radius:var(--radius); padding:16px; margin:8px 16px; box-shadow:0 1px 4px rgba(0,0,0,.06); }
-.section-title { font-size:15px; font-weight:700; padding:16px 16px 4px; color:var(--main); }
+.card{background:var(--card);border-radius:var(--radius);padding:16px;margin:8px 16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.section-title{font-size:15px;font-weight:700;padding:16px 16px 4px;color:var(--main)}
 
-/* Summary Grid */
-.summary-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:12px 16px; }
-.summary-item { background:var(--card); border-radius:var(--radius); padding:14px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,.06); }
-.summary-item .num { font-size:26px; font-weight:800; color:var(--main); }
-.summary-item .label { font-size:12px; color:var(--text2); margin-top:2px; }
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 16px}
+.summary-item{background:var(--card);border-radius:var(--radius);padding:14px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.summary-item .num{font-size:26px;font-weight:800;color:var(--main)}
+.summary-item .label{font-size:12px;color:var(--text2);margin-top:2px}
 
-/* Tags & Badges */
-.tag { display:inline-block; padding:3px 8px; border-radius:20px; font-size:11px; font-weight:600; margin:2px; }
-.tag.skill { background:var(--sub); color:var(--main); }
-.badge-status { padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; }
-.badge-status.active { background:#E8F5E9; color:var(--accent); }
-.badge-status.waiting { background:#FFF3E0; color:var(--warn); }
-.badge-status.leaving { background:#FFEBEE; color:var(--danger); }
+.tag{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;margin:2px}
+.tag.skill{background:var(--sub);color:var(--main)}
+.badge-status{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.badge-status.active{background:#E8F5E9;color:var(--accent)}
+.badge-status.waiting{background:#FFF3E0;color:var(--warn)}
+.badge-status.leaving{background:#FFEBEE;color:var(--danger)}
 
-/* Progress Bar */
-.progress-bar { height:6px; background:#e0e0e0; border-radius:3px; overflow:hidden; margin-top:8px; }
-.progress-bar .fill { height:100%; border-radius:3px; background:var(--accent); transition:.3s; }
+.progress-bar{height:6px;background:#e0e0e0;border-radius:3px;overflow:hidden;margin-top:8px}
+.progress-bar .fill{height:100%;border-radius:3px;transition:.3s}
+.fill.green{background:var(--accent)}
+.fill.warn{background:var(--warn)}
 
-/* Pipeline */
-.pipeline { display:flex; gap:4px; margin:8px 0; }
-.pipeline .step { flex:1; height:6px; border-radius:3px; background:#e0e0e0; }
-.pipeline .step.done { background:var(--accent); }
-.pipeline .step.current { background:var(--warn); }
+.pipeline{display:flex;gap:4px;margin:8px 0}
+.pipeline .step{flex:1;height:6px;border-radius:3px;background:#e0e0e0}
+.pipeline .step.done{background:var(--accent)}
+.pipeline .step.current{background:var(--warn)}
 
-/* List Item */
-.list-item { display:flex; align-items:center; padding:14px 16px; border-bottom:1px solid #f0f0f0; cursor:pointer; }
-.list-item:active { background:#f5f5f5; }
+.search-bar{display:flex;align-items:center;gap:8px;padding:10px 16px}
+.search-bar input{flex:1;padding:10px 14px;border-radius:10px;border:1px solid #ddd;font-size:14px;background:var(--card)}
+.filter-pills{display:flex;gap:8px;padding:0 16px 8px;overflow-x:auto}
+.filter-pills .pill{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid #ddd;background:#fff;white-space:nowrap;cursor:pointer}
+.filter-pills .pill.active{background:var(--main);color:#fff;border-color:var(--main)}
 
-/* FAB */
-.fab { position:fixed; bottom:calc(var(--tab-h) + 20px); right:20px; width:56px; height:56px; border-radius:50%; background:var(--accent); color:#fff; font-size:28px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,.2); cursor:pointer; z-index:150; border:none; }
+.person-card{display:flex;align-items:center;gap:12px;padding:14px;background:var(--card);border-radius:var(--radius);margin:6px 16px;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer}
+.person-card:active{background:#f8f8f8}
+.person-card .av{width:44px;height:44px;border-radius:50%;background:var(--sub);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.person-card .info{flex:1;min-width:0}
+.person-card .name{font-weight:700;font-size:15px}
+.person-card .role{font-size:12px;color:var(--text2)}
 
-/* Search */
-.search-bar { display:flex; align-items:center; gap:8px; padding:10px 16px; }
-.search-bar input { flex:1; padding:10px 14px; border-radius:10px; border:1px solid #ddd; font-size:14px; background:var(--card); }
-.search-bar .filter-btn { padding:10px 14px; border-radius:10px; border:1px solid #ddd; background:var(--card); font-size:14px; cursor:pointer; }
+.project-card{background:var(--card);border-radius:var(--radius);padding:16px;margin:6px 16px;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer}
+.project-card:active{background:#f8f8f8}
+.project-card .top{display:flex;justify-content:space-between;align-items:center}
+.project-card .pname{font-weight:700;font-size:15px}
+.project-card .client{font-size:12px;color:var(--text2);margin-top:2px}
+.project-card .meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12px;color:var(--text2)}
 
-/* Filter pills */
-.filter-pills { display:flex; gap:8px; padding:0 16px 8px; overflow-x:auto; }
-.filter-pills .pill { padding:6px 14px; border-radius:20px; font-size:12px; font-weight:600; border:1px solid #ddd; background:#fff; white-space:nowrap; cursor:pointer; }
-.filter-pills .pill.active { background:var(--main); color:#fff; border-color:var(--main); }
+.sub-tabs{display:flex;border-bottom:2px solid #eee;padding:0 16px;background:#fff}
+.sub-tabs .sub-tab{flex:1;text-align:center;padding:12px 0;font-size:14px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.sub-tabs .sub-tab.active{color:var(--main);border-bottom-color:var(--main)}
 
-/* Sub tabs */
-.sub-tabs { display:flex; border-bottom:2px solid #eee; padding:0 16px; background:#fff; }
-.sub-tabs .sub-tab { flex:1; text-align:center; padding:12px 0; font-size:14px; font-weight:600; color:var(--text2); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; }
-.sub-tabs .sub-tab.active { color:var(--main); border-bottom-color:var(--main); }
+.scroll-content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.slide-in{animation:slideIn .25s ease-out}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
 
-/* Person card */
-.person-card { display:flex; align-items:center; gap:12px; padding:14px; background:var(--card); border-radius:var(--radius); margin:6px 16px; box-shadow:0 1px 4px rgba(0,0,0,.06); cursor:pointer; }
-.person-card:active { background:#f8f8f8; }
-.person-card .av { width:44px; height:44px; border-radius:50%; background:var(--sub); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
-.person-card .info { flex:1; min-width:0; }
-.person-card .name { font-weight:700; font-size:15px; }
-.person-card .role { font-size:12px; color:var(--text2); }
+.todo-item{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #f0f0f0}
+.todo-item .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.todo-item .dot.warn{background:var(--warn)}
+.todo-item .dot.danger{background:var(--danger)}
+.todo-item .dot.info{background:var(--main)}
 
-/* Project card */
-.project-card { background:var(--card); border-radius:var(--radius); padding:16px; margin:6px 16px; box-shadow:0 1px 4px rgba(0,0,0,.06); cursor:pointer; }
-.project-card:active { background:#f8f8f8; }
-.project-card .top { display:flex; justify-content:space-between; align-items:center; }
-.project-card .pname { font-weight:700; font-size:15px; }
-.project-card .client { font-size:12px; color:var(--text2); margin-top:2px; }
-.project-card .meta { display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:12px; color:var(--text2); }
+.milestone{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid #f0f0f0}
+.milestone .check{width:22px;height:22px;border-radius:50%;border:2px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px}
+.milestone .check.done{background:var(--accent);border-color:var(--accent);color:#fff}
 
-/* Chat list */
-.chat-item { display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid #f0f0f0; cursor:pointer; }
-.chat-item:active { background:#f5f5f5; }
-.chat-item .chat-av { width:44px; height:44px; border-radius:50%; background:var(--sub); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
-.chat-item .chat-info { flex:1; min-width:0; }
-.chat-item .chat-name { font-weight:700; font-size:14px; }
-.chat-item .chat-msg { font-size:12px; color:var(--text2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.chat-item .chat-time { font-size:11px; color:var(--text2); flex-shrink:0; }
-
-/* Chat UI */
-.chat-window { flex:1; overflow-y:auto; padding:12px 16px; background:var(--sub); }
-.chat-bubble { max-width:75%; padding:10px 14px; border-radius:16px; margin-bottom:8px; font-size:14px; line-height:1.4; }
-.chat-bubble.other { background:#fff; border-bottom-left-radius:4px; align-self:flex-start; }
-.chat-bubble.mine { background:var(--main); color:#fff; border-bottom-right-radius:4px; align-self:flex-end; margin-left:auto; }
-.chat-input-bar { display:flex; gap:8px; padding:10px 16px; background:#fff; border-top:1px solid #eee; }
-.chat-input-bar input { flex:1; padding:10px 14px; border-radius:20px; border:1px solid #ddd; font-size:14px; }
-.chat-input-bar button { width:40px; height:40px; border-radius:50%; background:var(--main); color:#fff; border:none; font-size:18px; cursor:pointer; }
-
-/* Menu list */
-.menu-list { padding:8px 0; }
-.menu-item { display:flex; align-items:center; gap:14px; padding:16px 20px; border-bottom:1px solid #f0f0f0; cursor:pointer; font-size:15px; }
-.menu-item:active { background:#f5f5f5; }
-.menu-item .mi-icon { font-size:22px; width:30px; text-align:center; }
-.menu-item .mi-arrow { margin-left:auto; color:#ccc; }
-
-/* Detail page */
-.detail-section { padding:16px; }
-.detail-section h3 { font-size:14px; color:var(--text2); margin-bottom:8px; }
+/* Notification items */
+.notif-item{display:flex;gap:12px;padding:14px 16px;border-bottom:1px solid #f0f0f0;cursor:pointer}
+.notif-item:active{background:#f5f5f5}
+.notif-item.unread{background:#F0F6FF}
+.notif-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.notif-icon.person{background:#FFEBEE}
+.notif-icon.schedule{background:#E3F2FD}
+.notif-icon.issue{background:#FFF3E0}
+.notif-content{flex:1;min-width:0}
+.notif-title{font-weight:600;font-size:14px}
+.notif-desc{font-size:12px;color:var(--text2);margin-top:2px}
+.notif-time{font-size:11px;color:var(--text2);flex-shrink:0;margin-top:2px}
 
 /* Login */
-.login-page { display:none; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; background:linear-gradient(135deg,var(--main) 0%,#2C5F8A 100%); color:#fff; padding:40px 24px; }
-.login-page.active { display:flex; }
-.login-page .logo-big { font-size:42px; font-weight:800; margin-bottom:4px; }
-.login-page .subtitle { font-size:14px; opacity:.7; margin-bottom:40px; }
-.login-page input { width:100%; padding:14px 16px; border-radius:10px; border:none; font-size:15px; margin-bottom:12px; background:rgba(255,255,255,.15); color:#fff; }
-.login-page input::placeholder { color:rgba(255,255,255,.5); }
-.login-page .btn-login { width:100%; padding:15px; border-radius:10px; background:var(--accent); color:#fff; font-size:16px; font-weight:700; border:none; cursor:pointer; margin-top:8px; }
-.login-page .social { display:flex; gap:12px; margin-top:24px; width:100%; }
-.login-page .social button { flex:1; padding:12px; border-radius:10px; border:none; font-size:14px; font-weight:600; cursor:pointer; }
-.login-page .social .kakao { background:#FEE500; color:#3C1E1E; }
-.login-page .social .google { background:#fff; color:#333; }
+.login-page{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,var(--main) 0%,#2C5F8A 100%);color:#fff;padding:40px 24px}
+.login-page.active{display:flex}
+.login-page .logo-big{font-size:42px;font-weight:800;margin-bottom:4px}
+.login-page .subtitle{font-size:14px;opacity:.7;margin-bottom:40px}
+.login-page input{width:100%;padding:14px 16px;border-radius:10px;border:none;font-size:15px;margin-bottom:12px;background:rgba(255,255,255,.15);color:#fff}
+.login-page input::placeholder{color:rgba(255,255,255,.5)}
+.login-page .btn-login{width:100%;padding:15px;border-radius:10px;background:var(--accent);color:#fff;font-size:16px;font-weight:700;border:none;cursor:pointer;margin-top:8px}
+.login-page .social{display:flex;gap:12px;margin-top:24px;width:100%}
+.login-page .social button{flex:1;padding:12px;border-radius:10px;border:none;font-size:14px;font-weight:600;cursor:pointer}
+.login-page .social .kakao{background:#FEE500;color:#3C1E1E}
+.login-page .social .google{background:#fff;color:#333}
 
-/* Todo list */
-.todo-item { display:flex; align-items:center; gap:10px; padding:12px 16px; border-bottom:1px solid #f0f0f0; }
-.todo-item .dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-.todo-item .dot.warn { background:var(--warn); }
-.todo-item .dot.danger { background:var(--danger); }
-.todo-item .dot.info { background:var(--main); }
-
-/* Kanban */
-.kanban-scroll { display:flex; gap:12px; overflow-x:auto; padding:12px 16px; -webkit-overflow-scrolling:touch; }
-.kanban-col { min-width:200px; background:var(--sub); border-radius:var(--radius); padding:12px; }
-.kanban-col .col-title { font-size:13px; font-weight:700; color:var(--main); margin-bottom:8px; }
-.kanban-card { background:#fff; border-radius:10px; padding:10px; margin-bottom:8px; font-size:13px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
-
-/* Contract card */
-.contract-card { background:var(--card); border-radius:var(--radius); padding:14px; margin:6px 16px; box-shadow:0 1px 4px rgba(0,0,0,.06); }
-.dday { padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; }
-.dday.urgent { background:#FFEBEE; color:var(--danger); }
-.dday.normal { background:#FFF3E0; color:var(--warn); }
-.dday.safe { background:#E8F5E9; color:var(--accent); }
-
-/* Milestone */
-.milestone { display:flex; align-items:flex-start; gap:12px; padding:12px 0; border-bottom:1px solid #f0f0f0; }
-.milestone .check { width:22px; height:22px; border-radius:50%; border:2px solid #ddd; display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; margin-top:2px; }
-.milestone .check.done { background:var(--accent); border-color:var(--accent); color:#fff; }
-
-/* Cost row */
-.cost-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f0f0f0; font-size:14px; }
-
-/* Settings toggle */
-.setting-row { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid #f0f0f0; }
-.toggle { width:44px; height:24px; border-radius:12px; background:#ddd; position:relative; cursor:pointer; transition:.2s; }
-.toggle.on { background:var(--accent); }
-.toggle::after { content:''; position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%; background:#fff; transition:.2s; }
-.toggle.on::after { left:22px; }
-
-/* Scroll content */
-.scroll-content { flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; }
-
-/* Slide transition */
-.slide-in { animation:slideIn .25s ease-out; }
-@keyframes slideIn { from{transform:translateX(100%);opacity:0} to{transform:translateX(0);opacity:1} }
-
-/* Meeting detail */
-.meeting-summary { background:var(--sub); border-radius:var(--radius); padding:14px; margin:8px 16px; font-size:14px; line-height:1.6; }
-.todo-check { display:flex; align-items:center; gap:10px; padding:10px 16px; font-size:14px; }
-.todo-check input[type=checkbox] { width:18px; height:18px; }
+/* Crew count chip */
+.crew-chips{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.crew-chip{display:flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;font-size:11px;background:var(--sub);color:var(--main)}
 </style>
 </head>
 <body>
 
-<!-- ============ LOGIN ============ -->
+<!-- LOGIN -->
 <div id="page-login" class="login-page active">
   <div class="logo-big">PM Hub</div>
   <div class="subtitle">프로젝트 관리의 새로운 기준</div>
@@ -198,198 +133,238 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
   </div>
 </div>
 
-<!-- ============ HOME ============ -->
+<!-- HOME -->
 <div id="page-home" class="page">
   <div class="header">
     <div class="logo">PM Hub</div>
-    <div class="actions">
-      <div class="bell" onclick="switchPage('notifications')">🔔<div class="badge">3</div></div>
-      <div class="avatar">👤</div>
-    </div>
+    <div class="actions"><div class="avatar" onclick="alert('프로필: 박성호 PM')">👤</div></div>
   </div>
   <div class="scroll-content">
     <div class="summary-grid">
       <div class="summary-item"><div class="num">3</div><div class="label">진행 프로젝트</div></div>
       <div class="summary-item"><div class="num">24</div><div class="label">투입 인력</div></div>
-      <div class="summary-item"><div class="num">8,450</div><div class="label">이번달 비용(만원)</div></div>
-      <div class="summary-item"><div class="num">5</div><div class="label">진행 제안</div></div>
+      <div class="summary-item"><div class="num">2</div><div class="label">철수 예정</div></div>
+      <div class="summary-item"><div class="num">3</div><div class="label">대기 인력</div></div>
     </div>
 
     <div class="section-title">프로젝트 현황</div>
-    <div class="card" onclick="showProjectDetail('hyundai')">
+    <div class="card" onclick="showProjectDetail('hyundai')" style="cursor:pointer">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div><div style="font-weight:700;font-size:15px">현대모비스 MES</div><div style="font-size:12px;color:var(--text2)">현대모비스 · 수행</div></div>
         <span class="badge-status active">수행중</span>
       </div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text2);margin-top:10px"><span>제안</span><span>분석</span><span>설계</span><span>개발</span><span>테스트</span><span>오픈</span></div>
       <div class="pipeline"><div class="step done"></div><div class="step done"></div><div class="step done"></div><div class="step current"></div><div class="step"></div><div class="step"></div></div>
-      <div class="progress-bar"><div class="fill" style="width:65%"></div></div>
-      <div style="text-align:right;font-size:11px;color:var(--text2);margin-top:4px">65%</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+        <span style="font-size:12px;color:var(--text2)">투입 8명</span>
+        <span style="font-size:13px;font-weight:700;color:var(--main)">65%</span>
+      </div>
+      <div class="progress-bar"><div class="fill green" style="width:65%"></div></div>
     </div>
-    <div class="card" onclick="showProjectDetail('kb')">
+    <div class="card" onclick="showProjectDetail('kb')" style="cursor:pointer">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div><div style="font-weight:700;font-size:15px">KB손보 SFA</div><div style="font-size:12px;color:var(--text2)">KB손해보험 · 개발</div></div>
         <span class="badge-status active">수행중</span>
       </div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text2);margin-top:10px"><span>제안</span><span>분석</span><span>설계</span><span>개발</span><span>테스트</span><span>오픈</span></div>
       <div class="pipeline"><div class="step done"></div><div class="step done"></div><div class="step done"></div><div class="step done"></div><div class="step current"></div><div class="step"></div></div>
-      <div class="progress-bar"><div class="fill" style="width:80%"></div></div>
-      <div style="text-align:right;font-size:11px;color:var(--text2);margin-top:4px">80%</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+        <span style="font-size:12px;color:var(--text2)">투입 12명</span>
+        <span style="font-size:13px;font-weight:700;color:var(--main)">80%</span>
+      </div>
+      <div class="progress-bar"><div class="fill green" style="width:80%"></div></div>
     </div>
-    <div class="card" onclick="showProjectDetail('nh')">
+    <div class="card" onclick="showProjectDetail('nh')" style="cursor:pointer">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div><div style="font-weight:700;font-size:15px">농협 차세대</div><div style="font-size:12px;color:var(--text2)">NH농협은행 · 분석</div></div>
         <span class="badge-status waiting">분석중</span>
       </div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text2);margin-top:10px"><span>제안</span><span>분석</span><span>설계</span><span>개발</span><span>테스트</span><span>오픈</span></div>
       <div class="pipeline"><div class="step done"></div><div class="step current"></div><div class="step"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
-      <div class="progress-bar"><div class="fill" style="width:25%"></div></div>
-      <div style="text-align:right;font-size:11px;color:var(--text2);margin-top:4px">25%</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+        <span style="font-size:12px;color:var(--text2)">투입 4명</span>
+        <span style="font-size:13px;font-weight:700;color:var(--main)">25%</span>
+      </div>
+      <div class="progress-bar"><div class="fill warn" style="width:25%"></div></div>
     </div>
 
-    <div class="section-title">오늘 할 일</div>
-    <div class="todo-item"><div class="dot danger"></div><div><div style="font-weight:600;font-size:14px">김개발 철수 D-7 ⚠️</div><div style="font-size:12px;color:var(--text2)">현대모비스 MES → 대기</div></div></div>
+    <div class="section-title">⚡ 오늘의 알림</div>
+    <div class="todo-item"><div class="dot danger"></div><div><div style="font-weight:600;font-size:14px">김개발 철수 D-7 ⚠️</div><div style="font-size:12px;color:var(--text2)">현대모비스 MES → 대기 전환</div></div></div>
     <div class="todo-item"><div class="dot info"></div><div><div style="font-weight:600;font-size:14px">KB손보 중간보고 오후 2시</div><div style="font-size:12px;color:var(--text2)">발표자료 최종 확인 필요</div></div></div>
     <div class="todo-item"><div class="dot warn"></div><div><div style="font-weight:600;font-size:14px">농협 계약 만료 D-25</div><div style="font-size:12px;color:var(--text2)">연장 협의 진행중</div></div></div>
+    <div class="todo-item"><div class="dot danger"></div><div><div style="font-weight:600;font-size:14px">박준혁 철수 D-14</div><div style="font-size:12px;color:var(--text2)">KB손보 SFA → 후임 필요</div></div></div>
     <div style="height:20px"></div>
   </div>
 </div>
 
-<!-- ============ PEOPLE ============ -->
+<!-- PEOPLE -->
 <div id="page-people" class="page">
   <div class="header">
-    <div class="logo">PM Hub</div>
-    <div class="actions">
-      <div class="bell">🔔<div class="badge">3</div></div>
-      <div class="avatar">👤</div>
-    </div>
+    <div class="logo">인력 현황</div>
+    <div class="actions"><div class="avatar">👤</div></div>
   </div>
   <div class="scroll-content">
-    <div class="search-bar">
-      <input placeholder="이름, 기술스택 검색..." />
-      <div class="filter-btn">🔽</div>
-    </div>
+    <div class="search-bar"><input placeholder="이름, 기술스택 검색..."></div>
     <div class="filter-pills">
-      <div class="pill active">전체</div>
-      <div class="pill">대기</div>
-      <div class="pill">투입중</div>
-      <div class="pill">철수예정</div>
+      <div class="pill active" onclick="filterPeople(this,'all')">전체 24</div>
+      <div class="pill" onclick="filterPeople(this,'active')">투입중 19</div>
+      <div class="pill" onclick="filterPeople(this,'leaving')">철수예정 2</div>
+      <div class="pill" onclick="filterPeople(this,'waiting')">대기 3</div>
     </div>
 
-    <div class="person-card" onclick="showPersonDetail('kim')">
+    <div class="person-card" data-status="leaving" onclick="showPersonDetail('kim')">
       <div class="av">👨‍💻</div>
       <div class="info">
         <div class="name">김개발</div>
-        <div class="role">시니어 · 풀스택</div>
+        <div class="role">시니어 · 현대모비스 MES · 백엔드 리드</div>
         <div style="margin-top:4px"><span class="tag skill">Java</span><span class="tag skill">Spring</span><span class="tag skill">React</span></div>
       </div>
-      <span class="badge-status leaving">철수예정</span>
+      <span class="badge-status leaving">D-7</span>
     </div>
-    <div class="person-card" onclick="showPersonDetail('lee')">
+    <div class="person-card" data-status="active" onclick="showPersonDetail('lee')">
       <div class="av">👩‍💻</div>
       <div class="info">
         <div class="name">이서연</div>
-        <div class="role">미들 · 프론트엔드</div>
+        <div class="role">미들 · KB손보 SFA · 프론트엔드</div>
         <div style="margin-top:4px"><span class="tag skill">React</span><span class="tag skill">TypeScript</span><span class="tag skill">Vue</span></div>
       </div>
       <span class="badge-status active">투입중</span>
     </div>
-    <div class="person-card" onclick="showPersonDetail('park')">
+    <div class="person-card" data-status="leaving" onclick="showPersonDetail('park')">
       <div class="av">👨‍💼</div>
       <div class="info">
         <div class="name">박준혁</div>
-        <div class="role">시니어 · 백엔드</div>
+        <div class="role">시니어 · KB손보 SFA · 백엔드</div>
         <div style="margin-top:4px"><span class="tag skill">Python</span><span class="tag skill">Django</span><span class="tag skill">AWS</span></div>
       </div>
-      <span class="badge-status active">투입중</span>
+      <span class="badge-status leaving">D-14</span>
     </div>
-    <div class="person-card" onclick="showPersonDetail('choi')">
-      <div class="av">👩‍🎨</div>
-      <div class="info">
-        <div class="name">최민지</div>
-        <div class="role">주니어 · UI/UX</div>
-        <div style="margin-top:4px"><span class="tag skill">Figma</span><span class="tag skill">CSS</span></div>
-      </div>
-      <span class="badge-status waiting">대기</span>
-    </div>
-    <div class="person-card" onclick="showPersonDetail('jung')">
+    <div class="person-card" data-status="active" onclick="showPersonDetail('jung')">
       <div class="av">👨‍🔬</div>
       <div class="info">
         <div class="name">정태우</div>
-        <div class="role">시니어 · DBA</div>
+        <div class="role">시니어 · 농협 차세대 · DBA</div>
         <div style="margin-top:4px"><span class="tag skill">Oracle</span><span class="tag skill">MySQL</span><span class="tag skill">튜닝</span></div>
       </div>
       <span class="badge-status active">투입중</span>
     </div>
-    <div class="person-card">
+    <div class="person-card" data-status="waiting" onclick="showPersonDetail('choi')">
+      <div class="av">👩‍🎨</div>
+      <div class="info">
+        <div class="name">최민지</div>
+        <div class="role">주니어 · UI/UX 디자이너</div>
+        <div style="margin-top:4px"><span class="tag skill">Figma</span><span class="tag skill">CSS</span><span class="tag skill">Sketch</span></div>
+      </div>
+      <span class="badge-status waiting">대기</span>
+    </div>
+    <div class="person-card" data-status="active">
       <div class="av">👩‍💻</div>
       <div class="info">
         <div class="name">한소희</div>
-        <div class="role">미들 · QA</div>
+        <div class="role">미들 · 현대모비스 MES · QA</div>
         <div style="margin-top:4px"><span class="tag skill">Selenium</span><span class="tag skill">Jira</span></div>
       </div>
       <span class="badge-status active">투입중</span>
     </div>
+    <div class="person-card" data-status="active">
+      <div class="av">👨‍💻</div>
+      <div class="info">
+        <div class="name">오민수</div>
+        <div class="role">시니어 · 현대모비스 MES · PL</div>
+        <div style="margin-top:4px"><span class="tag skill">Java</span><span class="tag skill">MSA</span><span class="tag skill">K8s</span></div>
+      </div>
+      <span class="badge-status active">투입중</span>
+    </div>
+    <div class="person-card" data-status="waiting">
+      <div class="av">👩‍💻</div>
+      <div class="info">
+        <div class="name">윤하늘</div>
+        <div class="role">미들 · 풀스택</div>
+        <div style="margin-top:4px"><span class="tag skill">Node.js</span><span class="tag skill">React</span><span class="tag skill">MongoDB</span></div>
+      </div>
+      <span class="badge-status waiting">대기</span>
+    </div>
+    <div class="person-card" data-status="waiting">
+      <div class="av">👨‍💻</div>
+      <div class="info">
+        <div class="name">강현우</div>
+        <div class="role">주니어 · 백엔드</div>
+        <div style="margin-top:4px"><span class="tag skill">Java</span><span class="tag skill">Spring</span></div>
+      </div>
+      <span class="badge-status waiting">대기</span>
+    </div>
+    <div style="height:20px"></div>
   </div>
-  <button class="fab" onclick="alert('이력서 업로드')">+</button>
 </div>
 
-<!-- ============ PERSON DETAIL ============ -->
+<!-- PERSON DETAIL -->
 <div id="page-person-detail" class="page slide-in">
   <div class="header">
-    <div class="back" onclick="switchPage('people')">←</div>
-    <div class="logo" id="person-detail-name">김개발</div>
-    <div class="actions"><div class="avatar">👤</div></div>
+    <div class="back" onclick="switchTab('people',document.querySelectorAll('.tab-bar .tab')[1])">←</div>
+    <div class="logo" id="pd-header-name">인력 상세</div>
+    <div class="actions"></div>
   </div>
   <div class="scroll-content">
     <div style="text-align:center;padding:24px">
-      <div style="width:80px;height:80px;border-radius:50%;background:var(--sub);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:36px">👨‍💻</div>
+      <div style="width:80px;height:80px;border-radius:50%;background:var(--sub);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:36px" id="pd-emoji">👨‍💻</div>
       <div style="font-size:20px;font-weight:700;margin-top:12px" id="pd-name">김개발</div>
       <div style="font-size:14px;color:var(--text2)" id="pd-role">시니어 개발자 · 12년차</div>
-      <div style="margin-top:8px"><span class="badge-status leaving" id="pd-status">철수예정</span></div>
+      <div style="margin-top:8px"><span class="badge-status" id="pd-status">철수예정</span></div>
     </div>
+
+    <div class="section-title">현재 투입</div>
+    <div class="card" id="pd-current">
+      <div style="font-weight:700">현대모비스 MES 구축</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px">백엔드 리드 · 투입률 100%</div>
+      <div style="font-size:12px;color:var(--danger);margin-top:4px">⚠️ 철수예정 D-7 (2025.03.02)</div>
+    </div>
+
     <div class="section-title">기술 스택</div>
-    <div style="padding:0 16px 12px">
+    <div style="padding:0 16px 12px" id="pd-skills">
       <span class="tag skill">Java</span><span class="tag skill">Spring Boot</span><span class="tag skill">React</span><span class="tag skill">Oracle</span><span class="tag skill">Docker</span><span class="tag skill">Kubernetes</span>
     </div>
+
     <div class="section-title">프로젝트 이력</div>
     <div class="card">
       <div style="font-weight:700">현대모비스 MES 구축</div>
-      <div style="font-size:12px;color:var(--text2);margin-top:4px">현대모비스 · 2024.03 ~ 2025.02</div>
-      <div style="font-size:13px;margin-top:4px">역할: 백엔드 리드</div>
-      <div style="margin-top:4px"><span class="tag skill">Java</span><span class="tag skill">Spring</span><span class="tag skill">Oracle</span></div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px">2024.03 ~ 현재 · 백엔드 리드</div>
     </div>
     <div class="card">
       <div style="font-weight:700">삼성SDS 통합관제</div>
-      <div style="font-size:12px;color:var(--text2);margin-top:4px">삼성SDS · 2023.01 ~ 2024.02</div>
-      <div style="font-size:13px;margin-top:4px">역할: 풀스택 개발</div>
-      <div style="margin-top:4px"><span class="tag skill">React</span><span class="tag skill">Node.js</span><span class="tag skill">PostgreSQL</span></div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px">2023.01 ~ 2024.02 · 풀스택</div>
     </div>
-    <div style="padding:16px">
-      <button style="width:100%;padding:14px;border-radius:10px;background:var(--main);color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer">프로젝트 배정</button>
+    <div class="card">
+      <div style="font-weight:700">LG CNS 물류시스템</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:4px">2021.06 ~ 2022.12 · 백엔드</div>
     </div>
+    <div style="height:20px"></div>
   </div>
 </div>
 
-<!-- ============ PROJECTS ============ -->
+<!-- PROJECTS -->
 <div id="page-projects" class="page">
   <div class="header">
-    <div class="logo">PM Hub</div>
-    <div class="actions">
-      <div class="bell">🔔<div class="badge">3</div></div>
-      <div class="avatar">👤</div>
-    </div>
+    <div class="logo">프로젝트</div>
+    <div class="actions"><div class="avatar">👤</div></div>
   </div>
   <div class="scroll-content">
-    <div class="search-bar">
-      <input placeholder="프로젝트 검색..." />
-    </div>
+    <div class="search-bar"><input placeholder="프로젝트 검색..."></div>
+
     <div class="project-card" onclick="showProjectDetail('hyundai')">
       <div class="top">
         <div class="pname">현대모비스 MES 구축</div>
         <span class="badge-status active">수행</span>
       </div>
       <div class="client">현대모비스</div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text2);margin-top:10px"><span>제안</span><span>분석</span><span>설계</span><span>개발</span><span>테스트</span><span>오픈</span></div>
       <div class="pipeline"><div class="step done"></div><div class="step done"></div><div class="step done"></div><div class="step current"></div><div class="step"></div><div class="step"></div></div>
-      <div class="meta"><span>투입 8명</span><span>65%</span></div>
-      <div class="progress-bar"><div class="fill" style="width:65%"></div></div>
+      <div class="meta"><span>투입 8명</span><span style="font-weight:700;color:var(--main)">65%</span></div>
+      <div class="progress-bar"><div class="fill green" style="width:65%"></div></div>
+      <div class="crew-chips">
+        <div class="crew-chip">👨‍💻 오민수(PL)</div>
+        <div class="crew-chip">👨‍💻 김개발</div>
+        <div class="crew-chip">+6</div>
+      </div>
     </div>
     <div class="project-card" onclick="showProjectDetail('kb')">
       <div class="top">
@@ -397,9 +372,15 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
         <span class="badge-status active">개발</span>
       </div>
       <div class="client">KB손해보험</div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text2);margin-top:10px"><span>제안</span><span>분석</span><span>설계</span><span>개발</span><span>테스트</span><span>오픈</span></div>
       <div class="pipeline"><div class="step done"></div><div class="step done"></div><div class="step done"></div><div class="step done"></div><div class="step current"></div><div class="step"></div></div>
-      <div class="meta"><span>투입 12명</span><span>80%</span></div>
-      <div class="progress-bar"><div class="fill" style="width:80%"></div></div>
+      <div class="meta"><span>투입 12명</span><span style="font-weight:700;color:var(--main)">80%</span></div>
+      <div class="progress-bar"><div class="fill green" style="width:80%"></div></div>
+      <div class="crew-chips">
+        <div class="crew-chip">👩‍💻 이서연</div>
+        <div class="crew-chip">👨‍💼 박준혁</div>
+        <div class="crew-chip">+10</div>
+      </div>
     </div>
     <div class="project-card" onclick="showProjectDetail('nh')">
       <div class="top">
@@ -407,472 +388,284 @@ body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; backg
         <span class="badge-status waiting">분석</span>
       </div>
       <div class="client">NH농협은행</div>
+      <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text2);margin-top:10px"><span>제안</span><span>분석</span><span>설계</span><span>개발</span><span>테스트</span><span>오픈</span></div>
       <div class="pipeline"><div class="step done"></div><div class="step current"></div><div class="step"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
-      <div class="meta"><span>투입 4명</span><span>25%</span></div>
-      <div class="progress-bar"><div class="fill" style="width:25%"></div></div>
+      <div class="meta"><span>투입 4명</span><span style="font-weight:700;color:var(--main)">25%</span></div>
+      <div class="progress-bar"><div class="fill warn" style="width:25%"></div></div>
+      <div class="crew-chips">
+        <div class="crew-chip">👨‍🔬 정태우</div>
+        <div class="crew-chip">+3</div>
+      </div>
     </div>
+    <div style="height:20px"></div>
   </div>
-  <button class="fab" onclick="alert('새 프로젝트')">+</button>
 </div>
 
-<!-- ============ PROJECT DETAIL ============ -->
+<!-- PROJECT DETAIL -->
 <div id="page-project-detail" class="page slide-in">
   <div class="header">
-    <div class="back" onclick="switchPage('projects')">←</div>
+    <div class="back" onclick="switchTab('projects',document.querySelectorAll('.tab-bar .tab')[2])">←</div>
     <div class="logo" id="proj-detail-name">프로젝트</div>
-    <div class="actions"><div class="avatar">👤</div></div>
+    <div class="actions"></div>
   </div>
-  <div id="proj-detail-pipeline" style="padding:12px 16px;background:#fff">
+  <div style="padding:12px 16px;background:#fff">
     <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text2);margin-bottom:4px">
       <span>제안</span><span>분석</span><span>설계</span><span>개발</span><span>테스트</span><span>오픈</span>
     </div>
-    <div class="pipeline" id="proj-pipeline-steps">
-      <div class="step done"></div><div class="step done"></div><div class="step done"></div><div class="step current"></div><div class="step"></div><div class="step"></div>
-    </div>
+    <div class="pipeline" id="proj-pipeline"></div>
   </div>
   <div class="sub-tabs">
     <div class="sub-tab active" onclick="switchProjectTab(this,'proj-overview')">개요</div>
     <div class="sub-tab" onclick="switchProjectTab(this,'proj-people')">인력</div>
     <div class="sub-tab" onclick="switchProjectTab(this,'proj-schedule')">일정</div>
-    <div class="sub-tab" onclick="switchProjectTab(this,'proj-cost')">비용</div>
   </div>
   <div class="scroll-content">
-    <!-- Overview -->
     <div id="proj-overview" class="proj-tab-content">
       <div class="card">
         <div style="font-size:13px;color:var(--text2)">고객사</div>
-        <div style="font-weight:700;margin-bottom:8px" id="proj-client">현대모비스</div>
+        <div style="font-weight:700;margin-bottom:10px" id="proj-client"></div>
         <div style="font-size:13px;color:var(--text2)">기간</div>
-        <div style="font-weight:600;margin-bottom:8px" id="proj-period">2024.03 ~ 2025.06</div>
+        <div style="font-weight:600;margin-bottom:10px" id="proj-period"></div>
         <div style="font-size:13px;color:var(--text2)">PM</div>
-        <div style="font-weight:600;margin-bottom:8px">박성호 부장</div>
-        <div style="font-size:13px;color:var(--text2)">계약금액</div>
-        <div style="font-weight:600" id="proj-amount">12억 5,000만원</div>
+        <div style="font-weight:600;margin-bottom:10px" id="proj-pm"></div>
+        <div style="font-size:13px;color:var(--text2)">투입 인원</div>
+        <div style="font-weight:600" id="proj-crew"></div>
       </div>
       <div class="card">
-        <div style="font-size:13px;color:var(--text2);margin-bottom:4px">진행률</div>
-        <div style="font-size:28px;font-weight:800;color:var(--main)" id="proj-progress-num">65%</div>
-        <div class="progress-bar" style="height:8px"><div class="fill" style="width:65%" id="proj-progress-bar"></div></div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:13px;color:var(--text2)">진행률</span>
+          <span style="font-size:28px;font-weight:800;color:var(--main)" id="proj-progress-num"></span>
+        </div>
+        <div class="progress-bar" style="height:8px;margin-top:8px"><div class="fill green" id="proj-progress-bar"></div></div>
       </div>
     </div>
-    <!-- People -->
-    <div id="proj-people" class="proj-tab-content" style="display:none">
-      <div class="person-card"><div class="av">👨‍💻</div><div class="info"><div class="name">김개발</div><div class="role">백엔드 리드 · 투입률 100%</div></div></div>
-      <div class="person-card"><div class="av">👩‍💻</div><div class="info"><div class="name">이서연</div><div class="role">프론트엔드 · 투입률 100%</div></div></div>
-      <div class="person-card"><div class="av">👨‍🔬</div><div class="info"><div class="name">정태우</div><div class="role">DBA · 투입률 50%</div></div></div>
-      <div class="person-card"><div class="av">👩‍💻</div><div class="info"><div class="name">한소희</div><div class="role">QA · 투입률 100%</div></div></div>
-    </div>
-    <!-- Schedule -->
-    <div id="proj-schedule" class="proj-tab-content" style="display:none">
-      <div style="padding:12px 16px">
-        <div class="milestone"><div class="check done">✓</div><div><div style="font-weight:600">착수 보고</div><div style="font-size:12px;color:var(--text2)">2024.03.15 · 완료</div></div></div>
-        <div class="milestone"><div class="check done">✓</div><div><div style="font-weight:600">요구사항 확정</div><div style="font-size:12px;color:var(--text2)">2024.05.30 · 완료</div></div></div>
-        <div class="milestone"><div class="check done">✓</div><div><div style="font-weight:600">설계 완료</div><div style="font-size:12px;color:var(--text2)">2024.08.15 · 완료</div></div></div>
-        <div class="milestone"><div class="check">　</div><div><div style="font-weight:600">중간 보고</div><div style="font-size:12px;color:var(--warn)">2025.01.30 · D-7</div></div></div>
-        <div class="milestone"><div class="check">　</div><div><div style="font-weight:600">통합 테스트</div><div style="font-size:12px;color:var(--text2)">2025.04.01</div></div></div>
-        <div class="milestone"><div class="check">　</div><div><div style="font-weight:600">오픈</div><div style="font-size:12px;color:var(--text2)">2025.06.30</div></div></div>
-      </div>
-    </div>
-    <!-- Cost -->
-    <div id="proj-cost" class="proj-tab-content" style="display:none">
-      <div class="summary-grid">
-        <div class="summary-item"><div class="num" style="font-size:20px">12.5억</div><div class="label">총 예산</div></div>
-        <div class="summary-item"><div class="num" style="font-size:20px;color:var(--accent)">7.8억</div><div class="label">집행액</div></div>
-      </div>
-      <div style="padding:0 16px">
-        <div class="cost-row"><span>인건비</span><span style="font-weight:600">6억 2,000만</span></div>
-        <div class="cost-row"><span>장비/SW</span><span style="font-weight:600">8,500만</span></div>
-        <div class="cost-row"><span>외주비</span><span style="font-weight:600">5,000만</span></div>
-        <div class="cost-row"><span>경비</span><span style="font-weight:600">2,500만</span></div>
-      </div>
-    </div>
+    <div id="proj-people" class="proj-tab-content" style="display:none"></div>
+    <div id="proj-schedule" class="proj-tab-content" style="display:none"></div>
   </div>
 </div>
 
-<!-- ============ COMM ============ -->
-<div id="page-comm" class="page">
+<!-- NOTIFICATIONS -->
+<div id="page-notifications" class="page">
   <div class="header">
-    <div class="logo">PM Hub</div>
-    <div class="actions">
-      <div class="bell">🔔<div class="badge">3</div></div>
-      <div class="avatar">👤</div>
-    </div>
+    <div class="logo">알림</div>
+    <div class="actions"><div class="avatar">👤</div></div>
   </div>
   <div class="sub-tabs">
-    <div class="sub-tab active" onclick="switchCommTab(this,'comm-chat')">채팅</div>
-    <div class="sub-tab" onclick="switchCommTab(this,'comm-meeting')">회의록</div>
+    <div class="sub-tab active" onclick="filterNotifs(this,'all')">전체</div>
+    <div class="sub-tab" onclick="filterNotifs(this,'person')">인력</div>
+    <div class="sub-tab" onclick="filterNotifs(this,'schedule')">일정</div>
+    <div class="sub-tab" onclick="filterNotifs(this,'issue')">이슈</div>
   </div>
   <div class="scroll-content">
-    <div id="comm-chat">
-      <div class="chat-item" onclick="showChatRoom('hyundai-chat')">
-        <div class="chat-av">🏭</div>
-        <div class="chat-info">
-          <div class="chat-name">현대모비스 MES팀</div>
-          <div class="chat-msg">김개발: API 연동 완료했습니다</div>
-        </div>
-        <div class="chat-time">오전 10:32</div>
+    <div class="section-title">오늘</div>
+    <div class="notif-item unread" data-type="person">
+      <div class="notif-icon person">👤</div>
+      <div class="notif-content">
+        <div class="notif-title">김개발 철수 D-7</div>
+        <div class="notif-desc">현대모비스 MES → 대기 전환 예정. 후임 배정 필요.</div>
       </div>
-      <div class="chat-item" onclick="showChatRoom('kb-chat')">
-        <div class="chat-av">🏦</div>
-        <div class="chat-info">
-          <div class="chat-name">KB손보 SFA팀</div>
-          <div class="chat-msg">이서연: 화면 시안 공유드립니다</div>
-        </div>
-        <div class="chat-time">오전 9:15</div>
-      </div>
-      <div class="chat-item" onclick="showChatRoom('nh-chat')">
-        <div class="chat-av">🌾</div>
-        <div class="chat-info">
-          <div class="chat-name">농협 차세대팀</div>
-          <div class="chat-msg">정태우: DB 스키마 초안 올렸습니다</div>
-        </div>
-        <div class="chat-time">어제</div>
-      </div>
-      <div style="padding:16px">
-        <button style="width:100%;padding:12px;border-radius:10px;background:var(--sub);color:var(--main);font-weight:700;border:none;font-size:14px;cursor:pointer">📋 오늘 요약 보기</button>
-      </div>
+      <div class="notif-time">1시간 전</div>
     </div>
-    <div id="comm-meeting" style="display:none">
-      <div class="card" onclick="showMeetingDetail()">
-        <div style="font-weight:700">현대모비스 주간회의</div>
-        <div style="font-size:12px;color:var(--text2);margin-top:4px">2025.02.21 (금) 10:00</div>
-        <div style="font-size:13px;margin-top:8px">📌 TODO 3건</div>
+    <div class="notif-item unread" data-type="schedule">
+      <div class="notif-icon schedule">📅</div>
+      <div class="notif-content">
+        <div class="notif-title">KB손보 중간보고 오후 2시</div>
+        <div class="notif-desc">발표자료 최종 확인 필요. 회의실 B동 301호.</div>
       </div>
-      <div class="card">
-        <div style="font-weight:700">KB손보 중간보고 준비</div>
-        <div style="font-size:12px;color:var(--text2);margin-top:4px">2025.02.20 (목) 14:00</div>
-        <div style="font-size:13px;margin-top:8px">📌 TODO 5건</div>
-      </div>
-      <div class="card">
-        <div style="font-weight:700">농협 요구사항 협의</div>
-        <div style="font-size:12px;color:var(--text2);margin-top:4px">2025.02.19 (수) 15:30</div>
-        <div style="font-size:13px;margin-top:8px">📌 TODO 2건</div>
-      </div>
+      <div class="notif-time">2시간 전</div>
     </div>
-  </div>
-  <button class="fab" onclick="alert('녹취 업로드')">🎙</button>
-</div>
+    <div class="notif-item unread" data-type="issue">
+      <div class="notif-icon issue">⚠️</div>
+      <div class="notif-content">
+        <div class="notif-title">농협 차세대 일정 지연 위험</div>
+        <div class="notif-desc">분석 단계 2주 지연. 요구사항 변경 3건 추가.</div>
+      </div>
+      <div class="notif-time">3시간 전</div>
+    </div>
+    <div class="notif-item" data-type="person">
+      <div class="notif-icon person">👤</div>
+      <div class="notif-content">
+        <div class="notif-title">박준혁 철수 D-14</div>
+        <div class="notif-desc">KB손보 SFA → 후임자 배정 진행 필요.</div>
+      </div>
+      <div class="notif-time">오전 9:00</div>
+    </div>
 
-<!-- ============ CHAT ROOM ============ -->
-<div id="page-chat-room" class="page slide-in">
-  <div class="header">
-    <div class="back" onclick="switchPage('comm')">←</div>
-    <div class="logo" id="chat-room-name">현대모비스 MES팀</div>
-    <div class="actions"><div style="font-size:14px;cursor:pointer">📋 요약</div></div>
-  </div>
-  <div class="chat-window" style="display:flex;flex-direction:column">
-    <div class="chat-bubble other"><div style="font-size:11px;color:var(--text2);margin-bottom:4px">김개발</div>API 연동 완료했습니다. 테스트 서버에 배포해 두었어요.</div>
-    <div class="chat-bubble other"><div style="font-size:11px;color:var(--text2);margin-bottom:4px">정태우</div>DB 마이그레이션도 같이 진행할까요?</div>
-    <div class="chat-bubble mine">네, 이번 주 금요일까지 마이그레이션 완료해 주세요.</div>
-    <div class="chat-bubble other"><div style="font-size:11px;color:var(--text2);margin-bottom:4px">김개발</div>알겠습니다. 스크립트 준비하겠습니다.</div>
-    <div class="chat-bubble mine">중간보고 자료도 이번 주 내로 정리 부탁드립니다 🙏</div>
-  </div>
-  <div class="chat-input-bar">
-    <input placeholder="메시지 입력...">
-    <button>↑</button>
-  </div>
-</div>
+    <div class="section-title">어제</div>
+    <div class="notif-item" data-type="issue">
+      <div class="notif-icon issue">⚠️</div>
+      <div class="notif-content">
+        <div class="notif-title">현대모비스 API 연동 이슈</div>
+        <div class="notif-desc">외부 API 응답 지연 발생. 김개발 대응중.</div>
+      </div>
+      <div class="notif-time">어제</div>
+    </div>
+    <div class="notif-item" data-type="schedule">
+      <div class="notif-icon schedule">📅</div>
+      <div class="notif-content">
+        <div class="notif-title">농협 요구사항 협의 완료</div>
+        <div class="notif-desc">변경 요구사항 3건 확정. 일정 재수립 필요.</div>
+      </div>
+      <div class="notif-time">어제</div>
+    </div>
+    <div class="notif-item" data-type="person">
+      <div class="notif-icon person">👤</div>
+      <div class="notif-content">
+        <div class="notif-title">최민지 대기 전환</div>
+        <div class="notif-desc">신규 프로젝트 배정 대기. 가용 스킬: Figma, UI/UX.</div>
+      </div>
+      <div class="notif-time">어제</div>
+    </div>
 
-<!-- ============ MEETING DETAIL ============ -->
-<div id="page-meeting-detail" class="page slide-in">
-  <div class="header">
-    <div class="back" onclick="switchPage('comm')">←</div>
-    <div class="logo">회의록</div>
-    <div class="actions"><div class="avatar">👤</div></div>
-  </div>
-  <div class="scroll-content">
-    <div style="padding:16px">
-      <div style="font-size:18px;font-weight:700">현대모비스 주간회의</div>
-      <div style="font-size:13px;color:var(--text2);margin-top:4px">2025.02.21 (금) 10:00 ~ 11:00 · 참석 5명</div>
+    <div class="section-title">이번 주</div>
+    <div class="notif-item" data-type="schedule">
+      <div class="notif-icon schedule">📅</div>
+      <div class="notif-content">
+        <div class="notif-title">농협 계약 만료 D-25</div>
+        <div class="notif-desc">분석 계약 3/20 만료. 연장 협의 진행중.</div>
+      </div>
+      <div class="notif-time">2일 전</div>
     </div>
-    <div class="section-title">회의 요약</div>
-    <div class="meeting-summary">
-      • API 연동 개발 완료, 테스트 서버 배포됨<br>
-      • DB 마이그레이션 금요일까지 완료 예정<br>
-      • 중간보고 자료 준비 — 이서연 담당<br>
-      • 김개발 철수 일정 조율 필요 (D-7)
+    <div class="notif-item" data-type="issue">
+      <div class="notif-icon issue">⚠️</div>
+      <div class="notif-content">
+        <div class="notif-title">KB손보 테스트 결함 12건</div>
+        <div class="notif-desc">1차 통합테스트 결과. Critical 2건 포함.</div>
+      </div>
+      <div class="notif-time">3일 전</div>
     </div>
-    <div class="section-title">TODO</div>
-    <div class="todo-check"><input type="checkbox"><span>DB 마이그레이션 스크립트 작성 (정태우, ~2/28)</span></div>
-    <div class="todo-check"><input type="checkbox"><span>중간보고 발표자료 (이서연, ~2/27)</span></div>
-    <div class="todo-check"><input type="checkbox"><span>김개발 후임자 인수인계 계획 (PM, ~2/25)</span></div>
+    <div style="height:20px"></div>
   </div>
 </div>
 
-<!-- ============ MORE ============ -->
-<div id="page-more" class="page">
-  <div class="header">
-    <div class="logo">PM Hub</div>
-    <div class="actions">
-      <div class="bell">🔔<div class="badge">3</div></div>
-      <div class="avatar">👤</div>
-    </div>
-  </div>
-  <div class="scroll-content">
-    <div style="text-align:center;padding:24px">
-      <div style="width:64px;height:64px;border-radius:50%;background:var(--sub);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:28px">👤</div>
-      <div style="font-size:17px;font-weight:700;margin-top:8px">박성호</div>
-      <div style="font-size:13px;color:var(--text2)">PM · 사업관리팀</div>
-    </div>
-    <div class="menu-list">
-      <div class="menu-item" onclick="switchPage('cost-mgmt')"><span class="mi-icon">💰</span>비용 관리<span class="mi-arrow">›</span></div>
-      <div class="menu-item" onclick="switchPage('proposal-mgmt')"><span class="mi-icon">📝</span>제안 관리<span class="mi-arrow">›</span></div>
-      <div class="menu-item" onclick="switchPage('contract-mgmt')"><span class="mi-icon">📄</span>계약 관리<span class="mi-arrow">›</span></div>
-      <div class="menu-item" onclick="switchPage('settings')"><span class="mi-icon">⚙️</span>설정<span class="mi-arrow">›</span></div>
-      <div class="menu-item" onclick="switchPage('notif-settings')"><span class="mi-icon">🔔</span>알림 설정<span class="mi-arrow">›</span></div>
-      <div class="menu-item" onclick="doLogout()" style="color:var(--danger)"><span class="mi-icon">🚪</span>로그아웃</div>
-    </div>
-  </div>
-</div>
-
-<!-- ============ COST MGMT ============ -->
-<div id="page-cost-mgmt" class="page slide-in">
-  <div class="header">
-    <div class="back" onclick="switchPage('more')">←</div>
-    <div class="logo">비용 관리</div>
-    <div class="actions"><div class="avatar">👤</div></div>
-  </div>
-  <div class="scroll-content">
-    <div class="filter-pills" style="padding-top:12px">
-      <div class="pill active">현대모비스 MES</div>
-      <div class="pill">KB손보 SFA</div>
-      <div class="pill">농협 차세대</div>
-    </div>
-    <div class="summary-grid">
-      <div class="summary-item"><div class="num" style="font-size:18px">12.5억</div><div class="label">총 예산</div></div>
-      <div class="summary-item"><div class="num" style="font-size:18px;color:var(--accent)">7.8억</div><div class="label">집행액</div></div>
-      <div class="summary-item"><div class="num" style="font-size:18px;color:var(--warn)">4.7억</div><div class="label">잔여</div></div>
-      <div class="summary-item"><div class="num" style="font-size:18px">62%</div><div class="label">집행률</div></div>
-    </div>
-    <div class="section-title">항목별 현황</div>
-    <div style="padding:0 16px">
-      <div class="cost-row"><span>인건비</span><span><b>6.2억</b> / 9.5억</span></div>
-      <div class="cost-row"><span>장비/SW</span><span><b>8,500만</b> / 1.2억</span></div>
-      <div class="cost-row"><span>외주비</span><span><b>5,000만</b> / 1억</span></div>
-      <div class="cost-row"><span>경비</span><span><b>2,500만</b> / 8,000만</span></div>
-    </div>
-  </div>
-</div>
-
-<!-- ============ PROPOSAL MGMT ============ -->
-<div id="page-proposal-mgmt" class="page slide-in">
-  <div class="header">
-    <div class="back" onclick="switchPage('more')">←</div>
-    <div class="logo">제안 관리</div>
-    <div class="actions"><div class="avatar">👤</div></div>
-  </div>
-  <div class="scroll-content">
-    <div class="kanban-scroll">
-      <div class="kanban-col">
-        <div class="col-title">발굴 (2)</div>
-        <div class="kanban-card"><div style="font-weight:600">LG전자 스마트팩토리</div><div style="font-size:11px;color:var(--text2);margin-top:4px">예상 8억 · 제조</div></div>
-        <div class="kanban-card"><div style="font-weight:600">CJ대한통운 TMS</div><div style="font-size:11px;color:var(--text2);margin-top:4px">예상 5억 · 물류</div></div>
-      </div>
-      <div class="kanban-col">
-        <div class="col-title">제안중 (2)</div>
-        <div class="kanban-card"><div style="font-weight:600">신한은행 AI 챗봇</div><div style="font-size:11px;color:var(--text2);margin-top:4px">예상 6억 · 금융</div></div>
-        <div class="kanban-card"><div style="font-weight:600">SK텔레콤 빌링</div><div style="font-size:11px;color:var(--text2);margin-top:4px">예상 15억 · 통신</div></div>
-      </div>
-      <div class="kanban-col">
-        <div class="col-title">평가중 (1)</div>
-        <div class="kanban-card"><div style="font-weight:600">포스코 ERP 고도화</div><div style="font-size:11px;color:var(--text2);margin-top:4px">예상 20억 · 제조</div></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ============ CONTRACT MGMT ============ -->
-<div id="page-contract-mgmt" class="page slide-in">
-  <div class="header">
-    <div class="back" onclick="switchPage('more')">←</div>
-    <div class="logo">계약 관리</div>
-    <div class="actions"><div class="avatar">👤</div></div>
-  </div>
-  <div class="scroll-content">
-    <div class="contract-card" style="margin-top:12px">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-weight:700">현대모비스 MES</div>
-        <span class="dday safe">D-125</span>
-      </div>
-      <div style="font-size:12px;color:var(--text2);margin-top:4px">2024.03.01 ~ 2025.06.30 · 12.5억</div>
-      <div style="font-size:13px;margin-top:6px">상태: 정상 이행중</div>
-    </div>
-    <div class="contract-card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-weight:700">KB손보 SFA</div>
-        <span class="dday normal">D-45</span>
-      </div>
-      <div style="font-size:12px;color:var(--text2);margin-top:4px">2024.06.01 ~ 2025.04.10 · 8.3억</div>
-      <div style="font-size:13px;margin-top:6px">상태: 정상 이행중</div>
-    </div>
-    <div class="contract-card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-weight:700">농협 차세대</div>
-        <span class="dday urgent">D-25</span>
-      </div>
-      <div style="font-size:12px;color:var(--text2);margin-top:4px">2024.11.01 ~ 2025.03.20 · 3.2억 (분석)</div>
-      <div style="font-size:13px;margin-top:6px;color:var(--warn)">⚠️ 연장 협의 진행중</div>
-    </div>
-  </div>
-</div>
-
-<!-- ============ SETTINGS ============ -->
-<div id="page-settings" class="page slide-in">
-  <div class="header">
-    <div class="back" onclick="switchPage('more')">←</div>
-    <div class="logo">설정</div>
-    <div class="actions"><div class="avatar">👤</div></div>
-  </div>
-  <div class="scroll-content">
-    <div style="text-align:center;padding:24px">
-      <div style="width:80px;height:80px;border-radius:50%;background:var(--sub);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:36px">👤</div>
-      <div style="font-size:18px;font-weight:700;margin-top:12px">박성호</div>
-      <div style="font-size:13px;color:var(--text2)">pm@company.com</div>
-      <button style="margin-top:12px;padding:8px 20px;border-radius:8px;border:1px solid #ddd;background:#fff;font-size:13px;cursor:pointer">프로필 수정</button>
-    </div>
-    <div class="section-title">일반</div>
-    <div class="setting-row"><span>다크 모드</span><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
-    <div class="setting-row"><span>언어</span><span style="color:var(--text2)">한국어 ›</span></div>
-    <div class="section-title">정보</div>
-    <div class="setting-row"><span>버전</span><span style="color:var(--text2)">1.0.0</span></div>
-    <div class="setting-row"><span>이용약관</span><span style="color:var(--text2)">›</span></div>
-  </div>
-</div>
-
-<!-- ============ NOTIF SETTINGS ============ -->
-<div id="page-notif-settings" class="page slide-in">
-  <div class="header">
-    <div class="back" onclick="switchPage('more')">←</div>
-    <div class="logo">알림 설정</div>
-    <div class="actions"><div class="avatar">👤</div></div>
-  </div>
-  <div class="scroll-content">
-    <div class="setting-row"><span>전체 알림</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
-    <div class="setting-row"><span>프로젝트 업데이트</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
-    <div class="setting-row"><span>인력 변동</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
-    <div class="setting-row"><span>비용 알림</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
-    <div class="setting-row"><span>채팅 메시지</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
-    <div class="setting-row"><span>계약 만료 알림</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
-    <div class="setting-row"><span>일정 리마인더</span><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
-  </div>
-</div>
-
-<!-- ============ TAB BAR ============ -->
+<!-- TAB BAR -->
 <div class="tab-bar" id="tab-bar" style="display:none">
   <div class="tab active" onclick="switchTab('home',this)"><div class="icon">🏠</div><span>홈</span></div>
   <div class="tab" onclick="switchTab('people',this)"><div class="icon">👥</div><span>인력</span></div>
   <div class="tab" onclick="switchTab('projects',this)"><div class="icon">📋</div><span>프로젝트</span></div>
-  <div class="tab" onclick="switchTab('comm',this)"><div class="icon">💬</div><span>소통</span></div>
-  <div class="tab" onclick="switchTab('more',this)"><div class="icon">⚙️</div><span>더보기</span></div>
+  <div class="tab" onclick="switchTab('notifications',this)"><div class="icon">🔔</div><span>알림</span><div class="tab-badge">3</div></div>
 </div>
 
 <script>
-const mainPages = ['home','people','projects','comm','more'];
-const allPages = ['login','home','people','person-detail','projects','project-detail','comm','chat-room','meeting-detail','more','cost-mgmt','proposal-mgmt','contract-mgmt','settings','notif-settings','notifications'];
+const mainPages=['home','people','projects','notifications'];
+const allPages=['login','home','people','person-detail','projects','project-detail','notifications'];
 
-function switchPage(name) {
-  allPages.forEach(p => {
-    const el = document.getElementById('page-' + p);
-    if (el) el.classList.remove('active');
-  });
-  const target = document.getElementById('page-' + name);
-  if (target) target.classList.add('active');
-  
-  const tabBar = document.getElementById('tab-bar');
-  if (name === 'login') {
-    tabBar.style.display = 'none';
-  } else {
-    tabBar.style.display = 'flex';
-  }
+function switchPage(name){
+  allPages.forEach(p=>{const el=document.getElementById('page-'+p);if(el)el.classList.remove('active')});
+  const t=document.getElementById('page-'+name);
+  if(t)t.classList.add('active');
+  document.getElementById('tab-bar').style.display=name==='login'?'none':'flex';
 }
-window.switchMobilePage = switchPage;
+window.switchMobilePage=switchPage;
 
-function switchTab(name, el) {
+function switchTab(name,el){
   switchPage(name);
-  document.querySelectorAll('.tab-bar .tab').forEach(t => t.classList.remove('active'));
-  if (el) el.classList.add('active');
+  document.querySelectorAll('.tab-bar .tab').forEach(t=>t.classList.remove('active'));
+  if(el)el.classList.add('active');
 }
 
-function doLogin() {
+function doLogin(){
   switchPage('home');
   document.querySelectorAll('.tab-bar .tab')[0].classList.add('active');
 }
 
-function doLogout() {
-  switchPage('login');
-  document.querySelectorAll('.tab-bar .tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-bar .tab')[0].classList.add('active');
+// People filter
+function filterPeople(el,status){
+  el.parentElement.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.person-card').forEach(c=>{
+    if(status==='all')c.style.display='flex';
+    else c.style.display=c.dataset.status===status?'flex':'none';
+  });
 }
 
-function showPersonDetail(id) {
-  const data = {
-    kim: { name:'김개발', role:'시니어 개발자 · 12년차', status:'철수예정', statusClass:'leaving', emoji:'👨‍💻' },
-    lee: { name:'이서연', role:'미들 개발자 · 5년차', status:'투입중', statusClass:'active', emoji:'👩‍💻' },
-    park: { name:'박준혁', role:'시니어 개발자 · 10년차', status:'투입중', statusClass:'active', emoji:'👨‍💼' },
-    choi: { name:'최민지', role:'주니어 디자이너 · 2년차', status:'대기', statusClass:'waiting', emoji:'👩‍🎨' },
-    jung: { name:'정태우', role:'시니어 DBA · 15년차', status:'투입중', statusClass:'active', emoji:'👨‍🔬' },
-  };
-  const p = data[id] || data.kim;
-  document.getElementById('person-detail-name').textContent = p.name;
-  document.getElementById('pd-name').textContent = p.name;
-  document.getElementById('pd-role').textContent = p.role;
-  const st = document.getElementById('pd-status');
-  st.textContent = p.status;
-  st.className = 'badge-status ' + p.statusClass;
+// Person detail
+const personData={
+  kim:{name:'김개발',role:'시니어 개발자 · 12년차',status:'철수예정',cls:'leaving',emoji:'👨‍💻',project:'현대모비스 MES 구축',projRole:'백엔드 리드 · 투입률 100%',alert:'⚠️ 철수예정 D-7 (2025.03.02)',skills:['Java','Spring Boot','React','Oracle','Docker','Kubernetes']},
+  lee:{name:'이서연',role:'미들 개발자 · 5년차',status:'투입중',cls:'active',emoji:'👩‍💻',project:'KB손보 SFA 고도화',projRole:'프론트엔드 · 투입률 100%',alert:'',skills:['React','TypeScript','Vue','CSS','Webpack']},
+  park:{name:'박준혁',role:'시니어 개발자 · 10년차',status:'철수예정',cls:'leaving',emoji:'👨‍💼',project:'KB손보 SFA 고도화',projRole:'백엔드 · 투입률 100%',alert:'⚠️ 철수예정 D-14 (2025.03.09)',skills:['Python','Django','AWS','PostgreSQL','Redis']},
+  jung:{name:'정태우',role:'시니어 DBA · 15년차',status:'투입중',cls:'active',emoji:'👨‍🔬',project:'농협 차세대 시스템',projRole:'DBA · 투입률 50%',alert:'',skills:['Oracle','MySQL','튜닝','데이터모델링','PostgreSQL']},
+  choi:{name:'최민지',role:'주니어 디자이너 · 2년차',status:'대기',cls:'waiting',emoji:'👩‍🎨',project:'',projRole:'',alert:'',skills:['Figma','CSS','Sketch','Adobe XD']},
+};
+function showPersonDetail(id){
+  const p=personData[id]||personData.kim;
+  document.getElementById('pd-header-name').textContent=p.name;
+  document.getElementById('pd-emoji').textContent=p.emoji;
+  document.getElementById('pd-name').textContent=p.name;
+  document.getElementById('pd-role').textContent=p.role;
+  const st=document.getElementById('pd-status');
+  st.textContent=p.status;st.className='badge-status '+p.cls;
+  const cur=document.getElementById('pd-current');
+  if(p.project){
+    cur.style.display='block';
+    cur.innerHTML=`<div style="font-weight:700">${p.project}</div><div style="font-size:12px;color:var(--text2);margin-top:4px">${p.projRole}</div>${p.alert?`<div style="font-size:12px;color:var(--danger);margin-top:4px">${p.alert}</div>`:''}`;
+  }else{
+    cur.style.display='block';
+    cur.innerHTML='<div style="color:var(--text2);text-align:center;padding:8px">현재 미투입 · 배정 대기중</div>';
+  }
+  document.getElementById('pd-skills').innerHTML=p.skills.map(s=>`<span class="tag skill">${s}</span>`).join('');
   switchPage('person-detail');
 }
 
-function showProjectDetail(id) {
-  const data = {
-    hyundai: { name:'현대모비스 MES 구축', client:'현대모비스', period:'2024.03 ~ 2025.06', amount:'12억 5,000만원', progress:65, steps:[1,1,1,2,0,0] },
-    kb: { name:'KB손보 SFA 고도화', client:'KB손해보험', period:'2024.06 ~ 2025.04', amount:'8억 3,000만원', progress:80, steps:[1,1,1,1,2,0] },
-    nh: { name:'농협 차세대 시스템', client:'NH농협은행', period:'2024.11 ~ 2025.03', amount:'3억 2,000만원', progress:25, steps:[1,2,0,0,0,0] },
-  };
-  const p = data[id] || data.hyundai;
-  document.getElementById('proj-detail-name').textContent = p.name;
-  document.getElementById('proj-client').textContent = p.client;
-  document.getElementById('proj-period').textContent = p.period;
-  document.getElementById('proj-amount').textContent = p.amount;
-  document.getElementById('proj-progress-num').textContent = p.progress + '%';
-  document.getElementById('proj-progress-bar').style.width = p.progress + '%';
-  const steps = document.getElementById('proj-pipeline-steps').children;
-  p.steps.forEach((s,i) => { steps[i].className = 'step' + (s===1?' done':s===2?' current':''); });
-  // reset to overview tab
-  document.querySelectorAll('.proj-tab-content').forEach(el => el.style.display='none');
+// Project detail
+const projData={
+  hyundai:{name:'현대모비스 MES 구축',client:'현대모비스',period:'2024.03 ~ 2025.06',pm:'박성호 부장',crew:'8명',progress:65,steps:[1,1,1,2,0,0],
+    people:[{emoji:'👨‍💻',name:'오민수',role:'PL · 100%'},{emoji:'👨‍💻',name:'김개발',role:'백엔드 리드 · 100%',alert:'D-7'},{emoji:'👩‍💻',name:'한소희',role:'QA · 100%'},{emoji:'👨‍🔬',name:'정태우',role:'DBA · 50%'}],
+    milestones:[{done:true,name:'착수 보고',date:'2024.03.15 · 완료'},{done:true,name:'요구사항 확정',date:'2024.05.30 · 완료'},{done:true,name:'설계 완료',date:'2024.08.15 · 완료'},{done:false,name:'중간 보고',date:'2025.01.30 · D-7',warn:true},{done:false,name:'통합 테스트',date:'2025.04.01'},{done:false,name:'오픈',date:'2025.06.30'}]},
+  kb:{name:'KB손보 SFA 고도화',client:'KB손해보험',period:'2024.06 ~ 2025.04',pm:'박성호 부장',crew:'12명',progress:80,steps:[1,1,1,1,2,0],
+    people:[{emoji:'👩‍💻',name:'이서연',role:'프론트엔드 · 100%'},{emoji:'👨‍💼',name:'박준혁',role:'백엔드 · 100%',alert:'D-14'},{emoji:'👨‍💻',name:'송지훈',role:'PL · 100%'},{emoji:'👩‍💻',name:'김나연',role:'QA · 100%'}],
+    milestones:[{done:true,name:'착수 보고',date:'2024.06.10 · 완료'},{done:true,name:'분석 완료',date:'2024.08.20 · 완료'},{done:true,name:'설계 완료',date:'2024.10.15 · 완료'},{done:true,name:'개발 완료',date:'2025.01.10 · 완료'},{done:false,name:'중간 보고',date:'2025.02.23 · 오늘',warn:true},{done:false,name:'오픈',date:'2025.04.10'}]},
+  nh:{name:'농협 차세대 시스템',client:'NH농협은행',period:'2024.11 ~ 2025.03 (분석)',pm:'박성호 부장',crew:'4명',progress:25,steps:[1,2,0,0,0,0],
+    people:[{emoji:'👨‍🔬',name:'정태우',role:'DBA · 50%'},{emoji:'👨‍💻',name:'임재원',role:'분석 · 100%'},{emoji:'👩‍💻',name:'배수진',role:'분석 · 100%'},{emoji:'👨‍💼',name:'고영진',role:'AA · 50%'}],
+    milestones:[{done:true,name:'착수 보고',date:'2024.11.05 · 완료'},{done:false,name:'요구사항 확정',date:'2025.02.28 · D-5',warn:true},{done:false,name:'분석 완료',date:'2025.03.20'},{done:false,name:'계약 만료',date:'2025.03.20 · D-25',warn:true}]},
+};
+function showProjectDetail(id){
+  const p=projData[id]||projData.hyundai;
+  document.getElementById('proj-detail-name').textContent=p.name;
+  document.getElementById('proj-client').textContent=p.client;
+  document.getElementById('proj-period').textContent=p.period;
+  document.getElementById('proj-pm').textContent=p.pm;
+  document.getElementById('proj-crew').textContent=p.crew;
+  document.getElementById('proj-progress-num').textContent=p.progress+'%';
+  document.getElementById('proj-progress-bar').style.width=p.progress+'%';
+  const pipe=document.getElementById('proj-pipeline');
+  pipe.innerHTML=p.steps.map(s=>`<div class="step${s===1?' done':s===2?' current':''}"></div>`).join('');
+  // People tab
+  document.getElementById('proj-people').innerHTML=p.people.map(pp=>
+    `<div class="person-card"><div class="av">${pp.emoji}</div><div class="info"><div class="name">${pp.name}</div><div class="role">${pp.role}</div></div>${pp.alert?`<span class="badge-status leaving">${pp.alert}</span>`:''}</div>`
+  ).join('');
+  // Schedule tab
+  document.getElementById('proj-schedule').innerHTML='<div style="padding:12px 16px">'+p.milestones.map(m=>
+    `<div class="milestone"><div class="check${m.done?' done'}">${m.done?'✓':'　'}</div><div><div style="font-weight:600">${m.name}</div><div style="font-size:12px;color:${m.warn?'var(--warn)':'var(--text2)'}">${m.date}</div></div></div>`
+  ).join('')+'</div>';
+  // Reset tab
+  document.querySelectorAll('.proj-tab-content').forEach(el=>el.style.display='none');
   document.getElementById('proj-overview').style.display='block';
-  document.querySelectorAll('#page-project-detail .sub-tab').forEach((t,i) => t.classList.toggle('active',i===0));
+  document.querySelectorAll('#page-project-detail .sub-tab').forEach((t,i)=>t.classList.toggle('active',i===0));
   switchPage('project-detail');
 }
 
-function switchProjectTab(el, id) {
-  document.querySelectorAll('.proj-tab-content').forEach(c => c.style.display='none');
+function switchProjectTab(el,id){
+  document.querySelectorAll('.proj-tab-content').forEach(c=>c.style.display='none');
   document.getElementById(id).style.display='block';
-  el.parentElement.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  el.parentElement.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
 }
 
-function switchCommTab(el, id) {
-  document.getElementById('comm-chat').style.display = id==='comm-chat'?'block':'none';
-  document.getElementById('comm-meeting').style.display = id==='comm-meeting'?'block':'none';
-  el.parentElement.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+// Notification filter
+function filterNotifs(el,type){
+  el.parentElement.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
+  document.querySelectorAll('.notif-item').forEach(n=>{
+    n.style.display=(type==='all'||n.dataset.type===type)?'flex':'none';
+  });
 }
 
-function showChatRoom(id) {
-  const names = {'hyundai-chat':'현대모비스 MES팀','kb-chat':'KB손보 SFA팀','nh-chat':'농협 차세대팀'};
-  document.getElementById('chat-room-name').textContent = names[id] || '채팅';
-  switchPage('chat-room');
-}
-
-function showMeetingDetail() { switchPage('meeting-detail'); }
-
-// Filter pills click
-document.querySelectorAll('.filter-pills').forEach(fp => {
-  fp.addEventListener('click', e => {
-    if (e.target.classList.contains('pill')) {
-      fp.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-      e.target.classList.add('active');
-    }
+// Filter pill click (generic)
+document.querySelectorAll('.filter-pills').forEach(fp=>{
+  fp.addEventListener('click',e=>{
+    if(!e.target.classList.contains('pill'))return;
+    // handled by onclick for people
   });
 });
 </script>
