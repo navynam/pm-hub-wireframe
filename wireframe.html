@@ -508,6 +508,7 @@ tr:hover { background: var(--gray-light); }
       <div class="page" id="page-hr">
         <div class="tabs">
           <button class="tab-btn active" onclick="switchTab(this,'hr-pool')">인력 풀</button>
+          <button class="tab-btn" onclick="switchTab(this,'hr-dist')">인력 분배</button>
           <button class="tab-btn" onclick="switchTab(this,'hr-resume')">이력서 업로드</button>
         </div>
 
@@ -519,6 +520,164 @@ tr:hover { background: var(--gray-light); }
             <select><option>전체 기술</option><option>Java</option><option>React</option><option>Spring Boot</option><option>Python</option><option>Oracle</option></select>
           </div>
           <div class="person-grid" id="personGrid"></div>
+        </div>
+
+        <!-- ===== 인력 분배 탭 ===== -->
+        <div id="tab-hr-dist" style="display:none">
+          <div class="filter-bar">
+            <select id="distProjFilter" style="min-width:220px">
+              <option value="all">전체 보기</option>
+              <option>현대모비스 MES 구축</option>
+              <option>KB손보 SFA 고도화</option>
+              <option>삼성SDS 물류TMS</option>
+              <option>LG CNS 데이터플랫폼</option>
+            </select>
+          </div>
+
+          <!-- 분배 보드 테이블 -->
+          <div class="card" style="padding:0;overflow:hidden;margin-bottom:20px">
+            <div style="padding:16px 20px 0"><div class="section-title">📋 인력 분배 보드</div></div>
+            <table>
+              <thead><tr><th>프로젝트</th><th>필요역할</th><th>필요스킬</th><th>현재배정</th><th>상태</th></tr></thead>
+              <tbody>
+                <tr><td class="fw-700">현대모비스 MES 구축</td><td>백엔드 개발</td><td>Java, Spring Boot, Oracle</td><td>정현우</td><td><span class="badge badge-green">✅ 배정완료</span></td></tr>
+                <tr><td class="fw-700">현대모비스 MES 구축</td><td>DBA</td><td>Oracle, 튜닝</td><td>한소영 <span class="badge badge-red" style="font-size:10px">철수예정</span></td><td><span class="badge badge-orange">⚠️ 충돌</span></td></tr>
+                <tr style="cursor:pointer" onclick="openRecommendPanel()"><td class="fw-700">KB손보 SFA 고도화</td><td>백엔드 개발</td><td>Java, Spring Boot, JPA</td><td>—</td><td><span class="badge badge-gray">⬜ 미배정</span></td></tr>
+                <tr><td class="fw-700">KB손보 SFA 고도화</td><td>프론트엔드</td><td>React, TypeScript</td><td>이수진</td><td><span class="badge badge-green">✅ 배정완료</span></td></tr>
+                <tr style="cursor:pointer" onclick="openRecommendPanel()"><td class="fw-700">삼성SDS 물류TMS</td><td>QA 엔지니어</td><td>Selenium, 테스트자동화</td><td>—</td><td><span class="badge badge-gray">⬜ 미배정</span></td></tr>
+                <tr><td class="fw-700">LG CNS 데이터플랫폼</td><td>데이터 엔지니어</td><td>Python, Spark, Airflow</td><td>장미래</td><td><span class="badge badge-green">✅ 배정완료</span></td></tr>
+                <tr style="cursor:pointer" onclick="openRecommendPanel()"><td class="fw-700">LG CNS 데이터플랫폼</td><td>풀스택 개발</td><td>React, Node.js, Python</td><td>—</td><td><span class="badge badge-gray">⬜ 미배정</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 가용 인력 타임라인 (간트) -->
+          <div class="card">
+            <div class="section-title">📅 가용 인력 타임라인</div>
+            <div style="overflow-x:auto">
+              <div style="min-width:800px">
+                <!-- 헤더 -->
+                <div style="display:flex;border-bottom:2px solid #eee">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-weight:600;font-size:12px;color:var(--gray)">인력</div>
+                  <div style="flex:1;display:flex">
+                    <div style="flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--gray);font-weight:600;border-left:1px solid #eee">2월</div>
+                    <div style="flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--gray);font-weight:600;border-left:1px solid #eee">3월</div>
+                    <div style="flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--gray);font-weight:600;border-left:1px solid #eee">4월</div>
+                    <div style="flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--gray);font-weight:600;border-left:1px solid #eee">5월</div>
+                    <div style="flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--gray);font-weight:600;border-left:1px solid #eee">6월</div>
+                    <div style="flex:1;text-align:center;padding:8px 0;font-size:12px;color:var(--gray);font-weight:600;border-left:1px solid #eee">7월</div>
+                  </div>
+                </div>
+                <!-- 김태영 -->
+                <div style="display:flex;border-bottom:1px solid #f0f0f0;align-items:center;min-height:40px">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-size:13px"><span class="fw-700">김태영</span> <span class="text-sm text-gray">PM</span></div>
+                  <div style="flex:1;display:flex;position:relative;height:28px">
+                    <div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div>
+                    <div style="position:absolute;height:18px;top:5px;left:0;width:100%;background:var(--navy);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">현대모비스 MES</div>
+                  </div>
+                </div>
+                <!-- 한소영 - 철수예정 -->
+                <div style="display:flex;border-bottom:1px solid #f0f0f0;align-items:center;min-height:40px;background:#FFF5F5">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-size:13px"><span class="fw-700">한소영</span> <span class="text-sm" style="color:var(--red)">DBA ⚠️</span></div>
+                  <div style="flex:1;display:flex;position:relative;height:28px">
+                    <div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div>
+                    <div style="position:absolute;height:18px;top:5px;left:0;width:18%;background:var(--navy);border-radius:9px 0 0 9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">MES</div>
+                    <div style="position:absolute;height:18px;top:5px;left:18%;width:15%;background:#FFCDD2;border-radius:0;display:flex;align-items:center;justify-content:center;color:var(--red);font-size:10px">대기</div>
+                    <div style="position:absolute;height:18px;top:5px;left:33%;width:30%;background:var(--green);border-radius:0 9px 9px 0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;opacity:0.6">추천: KB손보</div>
+                  </div>
+                </div>
+                <!-- 이수진 -->
+                <div style="display:flex;border-bottom:1px solid #f0f0f0;align-items:center;min-height:40px">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-size:13px"><span class="fw-700">이수진</span> <span class="text-sm text-gray">프론트</span></div>
+                  <div style="flex:1;display:flex;position:relative;height:28px">
+                    <div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div>
+                    <div style="position:absolute;height:18px;top:5px;left:0;width:33%;background:#2A5080;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">KB손보 SFA</div>
+                    <div style="position:absolute;height:18px;top:5px;left:33%;width:15%;background:#FFCDD2;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--red);font-size:10px">대기</div>
+                  </div>
+                </div>
+                <!-- 최민수 - 대기 -->
+                <div style="display:flex;border-bottom:1px solid #f0f0f0;align-items:center;min-height:40px;background:#F5FFF5">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-size:13px"><span class="fw-700">최민수</span> <span class="text-sm" style="color:var(--green)">풀스택 🟢</span></div>
+                  <div style="flex:1;display:flex;position:relative;height:28px">
+                    <div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div>
+                    <div style="position:absolute;height:18px;top:5px;left:0;width:100%;background:#E8F5E9;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--green);font-size:10px">대기 — 즉시 투입 가능</div>
+                  </div>
+                </div>
+                <!-- 강동원 - 철수예정 -->
+                <div style="display:flex;border-bottom:1px solid #f0f0f0;align-items:center;min-height:40px;background:#FFF5F5">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-size:13px"><span class="fw-700">강동원</span> <span class="text-sm" style="color:var(--red)">QA ⚠️</span></div>
+                  <div style="flex:1;display:flex;position:relative;height:28px">
+                    <div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div>
+                    <div style="position:absolute;height:18px;top:5px;left:0;width:22%;background:var(--navy);border-radius:9px 0 0 9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">삼성SDS</div>
+                    <div style="position:absolute;height:18px;top:5px;left:22%;width:78%;background:#FFCDD2;border-radius:0 9px 9px 0;display:flex;align-items:center;justify-content:center;color:var(--red);font-size:10px">대기 — 추천 없음</div>
+                  </div>
+                </div>
+                <!-- 장미래 -->
+                <div style="display:flex;border-bottom:1px solid #f0f0f0;align-items:center;min-height:40px">
+                  <div style="width:160px;flex-shrink:0;padding:8px 12px;font-size:13px"><span class="fw-700">장미래</span> <span class="text-sm text-gray">데이터</span></div>
+                  <div style="flex:1;display:flex;position:relative;height:28px">
+                    <div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div><div style="flex:1;border-left:1px solid #f5f5f5"></div>
+                    <div style="position:absolute;height:18px;top:5px;left:0;width:100%;background:var(--navy);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">LG CNS 데이터플랫폼</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:16px;font-size:11px;color:var(--gray)">
+              <span>■ <span style="color:var(--navy)">투입중</span></span>
+              <span>■ <span style="color:#E8F5E9">대기(가용)</span></span>
+              <span>■ <span style="color:#FFCDD2">대기(미배정)</span></span>
+              <span>■ <span style="color:var(--green);opacity:0.6">배정 추천</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 추천 패널 (슬라이드) -->
+        <div class="panel-overlay" id="recommendOverlay" onclick="closeRecommendPanel()"></div>
+        <div class="slide-panel" id="recommendPanel">
+          <button class="panel-close" onclick="closeRecommendPanel()">✕</button>
+          <h3 style="color:var(--navy);margin-top:16px;margin-bottom:16px">🤖 AI 인력 매칭 추천</h3>
+          <div style="background:var(--bg);padding:12px;border-radius:var(--radius-sm);margin-bottom:20px;font-size:13px">
+            <div class="fw-700" style="margin-bottom:6px">매칭 조건</div>
+            <div>필요역할: <b>백엔드 개발</b></div>
+            <div>필요스킬: <b>Java, Spring Boot, JPA</b></div>
+            <div>프로젝트: <b>KB손보 SFA 고도화</b></div>
+            <div style="margin-top:8px;font-size:11px;color:var(--gray)">가중치: 스킬 30% · 유사프로젝트 25% · 가용시점 20% · 경력 15% · 투입이력 10%</div>
+          </div>
+          <div class="section-title" style="font-size:14px">추천 인력 (점수순)</div>
+          <!-- 추천 1 -->
+          <div style="border:1.5px solid #ddd;border-radius:var(--radius-sm);padding:14px;margin-bottom:10px">
+            <div class="flex-between" style="margin-bottom:6px">
+              <span class="fw-700">박민지</span>
+              <span style="background:var(--green);color:#fff;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700">92점</span>
+            </div>
+            <div class="text-sm text-gray">과장 · 8년 · 백엔드 개발</div>
+            <div class="text-sm" style="margin-top:4px">상태: <span class="badge badge-blue">투입중</span> (현대모비스 MES, 12월 철수예정)</div>
+            <div class="text-sm" style="margin-top:4px;color:var(--navy)">💡 KB손보 이전 프로젝트 경험 있음 (가점 +5)</div>
+            <div class="tags" style="margin-top:6px"><span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">JPA</span><span class="tag">Oracle</span></div>
+            <button class="btn btn-sm btn-primary" style="margin-top:10px;width:100%">배정</button>
+          </div>
+          <!-- 추천 2 -->
+          <div style="border:1.5px solid #ddd;border-radius:var(--radius-sm);padding:14px;margin-bottom:10px">
+            <div class="flex-between" style="margin-bottom:6px">
+              <span class="fw-700">정현우</span>
+              <span style="background:var(--green);color:#fff;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700">85점</span>
+            </div>
+            <div class="text-sm text-gray">과장 · 7년 · 백엔드 개발</div>
+            <div class="text-sm" style="margin-top:4px">상태: <span class="badge badge-orange">철수예정</span> (현대모비스 MES, 4/15 철수)</div>
+            <div class="tags" style="margin-top:6px"><span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">Kafka</span><span class="tag">Redis</span></div>
+            <button class="btn btn-sm btn-primary" style="margin-top:10px;width:100%">배정</button>
+          </div>
+          <!-- 추천 3 -->
+          <div style="border:1.5px solid #ddd;border-radius:var(--radius-sm);padding:14px;margin-bottom:10px">
+            <div class="flex-between" style="margin-bottom:6px">
+              <span class="fw-700">임도현</span>
+              <span style="background:#FF9800;color:#fff;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700">61점</span>
+            </div>
+            <div class="text-sm text-gray">사원 · 1년 · 백엔드 개발</div>
+            <div class="text-sm" style="margin-top:4px">상태: <span class="badge badge-green">대기</span> (즉시 투입 가능)</div>
+            <div class="tags" style="margin-top:6px"><span class="tag">Python</span><span class="tag">Django</span><span class="tag">FastAPI</span></div>
+            <button class="btn btn-sm btn-outline" style="margin-top:10px;width:100%">배정</button>
+          </div>
         </div>
 
         <div id="tab-hr-resume" style="display:none">
@@ -1254,6 +1413,17 @@ function showPerson(i) {
     <div class="tags" style="margin-bottom:16px">${p.skills.map(s=>`<span class="tag">${s}</span>`).join('')}</div>
     <div class="section-title" style="font-size:14px">현재 투입 프로젝트</div>
     <div style="margin-bottom:16px">${p.projects.length ? p.projects.map(pr=>`<div style="padding:6px 0">📁 ${pr}</div>`).join('') : '<div class="text-gray">투입된 프로젝트 없음</div>'}</div>
+    <div class="section-title" style="font-size:14px">프로젝트 이력</div>
+    <div style="margin-bottom:16px;overflow-x:auto">
+      <table style="font-size:12px;min-width:100%">
+        <thead><tr><th style="padding:6px 8px">프로젝트명</th><th style="padding:6px 8px">수행업체</th><th style="padding:6px 8px">기간</th><th style="padding:6px 8px">업무</th><th style="padding:6px 8px">스킬/툴</th></tr></thead>
+        <tbody>
+          <tr><td style="padding:6px 8px">현대모비스 MES 구축</td><td style="padding:6px 8px">현대모비스</td><td style="padding:6px 8px">2025.03~현재</td><td style="padding:6px 8px">${p.role}</td><td style="padding:6px 8px">${p.skills.slice(0,2).join(', ')}</td></tr>
+          <tr><td style="padding:6px 8px">KB손보 SFA 고도화</td><td style="padding:6px 8px">KB손해보험</td><td style="padding:6px 8px">2024.01~2024.12</td><td style="padding:6px 8px">${p.role}</td><td style="padding:6px 8px">${p.skills.slice(0,3).join(', ')}</td></tr>
+          <tr><td style="padding:6px 8px">농협 차세대 시스템</td><td style="padding:6px 8px">NH농협</td><td style="padding:6px 8px">2022.06~2023.08</td><td style="padding:6px 8px">${p.role}</td><td style="padding:6px 8px">${p.skills.slice(1,3).join(', ')}</td></tr>
+        </tbody>
+      </table>
+    </div>
     <div class="section-title" style="font-size:14px">AI 요약</div>
     <div style="background:var(--bg);padding:12px;border-radius:var(--radius-sm);font-size:13px;line-height:1.6">
       ${p.name}님은 ${p.exp} 경력의 ${p.role} 전문가입니다. 주요 기술은 ${p.skills.slice(0,3).join(', ')}이며, ${p.status === '대기' ? '현재 새 프로젝트 투입이 가능합니다.' : '현재 프로젝트에 투입 중입니다.'}
@@ -1337,6 +1507,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+function openRecommendPanel() {
+  document.getElementById('recommendPanel').classList.add('open');
+  document.getElementById('recommendOverlay').classList.add('show');
+}
+function closeRecommendPanel() {
+  document.getElementById('recommendPanel').classList.remove('open');
+  document.getElementById('recommendOverlay').classList.remove('show');
+}
 
 function openProposalDetail() {
   alert('제안 상세 패널: SK하이닉스 ERP 구축\n\n예상금액: 15억\n제안일: 2026.03.15\n경쟁사: A사, B사\n투입예정: 김태영(PM), 정현우(PL), 외 5명\n\n※ 와이어프레임에서는 슬라이드 패널로 구현 예정');
